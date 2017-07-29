@@ -3,8 +3,12 @@ package com.uh;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 
 public class ParenthesisExamples {
@@ -25,6 +29,130 @@ public class ParenthesisExamples {
 
         int len = longestValid("()(()))))");
         System.out.println(len);
+
+        List<String> valid = removeInvalid("()())()");
+        System.out.println(Arrays.deepToString(valid.toArray()));
+
+        printParanthesis(3);
+
+        int min = minReversals("}{{}}{{{");
+        System.out.println(min);
+    }
+
+    private static int minReversals(String s) {
+        int n = s.length();
+        if (n % 2 != 0)
+            return -1;
+        Stack<Character> stack = new Stack<>();
+        for (int i = 0; i < n; i++) {
+            char ch = s.charAt(i);
+            if (ch == '}' && !stack.isEmpty()) {
+
+                if (stack.peek() == '{')
+                    stack.pop();
+                else
+                    stack.push(ch);
+            } else
+                stack.push(ch);
+        }
+        
+        int cl = 0;
+        int op = 0;
+        
+        while(!stack.isEmpty()){
+            Character ch = stack.pop();
+            if(ch == '{')
+                op++;
+            if(ch == '}')
+                cl++;
+        }
+
+        return (int) (Math.ceil(op/2) + Math.ceil(cl/2));
+    }
+
+    private static void printParanthesis(int n) {
+
+        char[] ch = new char[n * n];
+        printParanthesis(n, 0, ch, 0, 0);
+    }
+
+    private static void printParanthesis(int n, int index, char[] ch, int open, int close) {
+
+        if (close == n) {
+            for (int i = 0; i < ch.length; i++) {
+                System.out.print(ch[i]);
+            }
+            System.out.println();
+            return;
+        }
+
+        if (open > close) {
+            ch[index] = '}';
+            printParanthesis(n, index + 1, ch, open, close + 1);
+        }
+
+        if (open < n) {
+            ch[index] = '{';
+            printParanthesis(n, index + 1, ch, open + 1, close);
+        }
+
+    }
+
+    private static List<String> removeInvalid(String s) {
+        List<String> res = new ArrayList<>();
+
+        if (s.isEmpty())
+            return res;
+        Queue<String> q = new LinkedList<>();
+        Set<String> set = new HashSet<>();
+        boolean level = true;
+        String temp = "";
+        q.add(s);
+        set.add(s);
+
+        while (!q.isEmpty()) {
+
+            String sub = q.poll();
+            if (isValid(sub)) {
+                res.add(s);
+                level = true;
+            }
+
+            if (level)
+                continue;
+
+            for (int i = 0; i < s.length(); i++) {
+                char ch = s.charAt(i);
+
+                if (!(ch == '(' || ch == ')'))
+                    continue;
+
+                temp = s.substring(0, i) + s.substring(i + 1);
+                if (!set.contains(temp)) {
+                    set.add(temp);
+                    q.add(temp);
+                }
+            }
+        }
+
+        return res;
+    }
+
+    private static boolean isValid(String s) {
+
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            if (ch == '(')
+                count++;
+            else if (ch == ')')
+                count--;
+
+            if (count < 0)
+                return false;
+        }
+
+        return count == 0;
     }
 
     private static int longestValid(String s) {

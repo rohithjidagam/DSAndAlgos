@@ -23,14 +23,60 @@ public class ArraysExamples {
 
         // trappingRainWater();
 
-         powerSet();
+        // powerSet();
 
         // permutations("ABC");
 
         // countFreq();
 
         //maxSlidingWindow();
+        
+        maxProductSubArray();
+        
+        productExceptItself();
 
+    }
+
+    private static void productExceptItself() {
+
+        int[] arr = {1,2,3,4};
+        int n = arr.length;
+        Integer[] res = new Integer[n];
+        
+        res[n-1] = 1;
+        for(int i=n-2;i>=0;i--)
+            res[i] = res[i+1] * arr[i+1];
+        int left = 1;
+        for(int i=0;i<n;i++){
+            res[i] = left * res[i];
+            left = left * arr[i];
+        }
+        System.out.println(Arrays.deepToString(res));
+    }
+
+    private static void maxProductSubArray() {
+
+        int[] arr = {2,3,-2,4};
+        int n = arr.length;
+        int[] max = new int[n];
+        int[] min = new int[n];
+        int result = arr[0];
+        
+        max[0] = arr[0];
+        min[0] = arr[0];
+        for (int i = 1; i < n; i++) {
+            if(arr[i] > 0){
+                max[i] = Math.max(arr[i], max[i-1] * arr[i]);
+                min[i] = Math.min(arr[i], min[i-1] * arr[i]);
+            } else{
+                max[i] = Math.min(arr[i], min[i-1]*arr[i]);
+                min[i] = Math.max(arr[i], max[i-1]*arr[i]);
+            }
+            
+            result = Math.max(result, max[i]);
+        }
+        
+        System.out.println(result);
     }
 
     private static void maxSlidingWindow() {

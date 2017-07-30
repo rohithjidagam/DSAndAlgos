@@ -30,6 +30,7 @@ public class ParenthesisExamples {
         int len = longestValid("()(()))))");
         System.out.println(len);
 
+        //BFS
         List<String> valid = removeInvalid("()())()");
         System.out.println(Arrays.deepToString(valid.toArray()));
 

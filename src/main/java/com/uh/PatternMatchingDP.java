@@ -20,7 +20,7 @@ public class PatternMatchingDP {
     public static void main(String[] args) {
 
         String str = "abcd";
-        String pattern = "d*";
+        String pattern = ".*";
 
         int m = str.length();
         int n = pattern.length();
@@ -34,18 +34,19 @@ public class PatternMatchingDP {
 
     private static boolean matchRecur(String p, String s) {
 
-        int m = p.length();
-        int n = s.length();
+        int n = p.length();
+        int m = s.length();
 
         if (m == 0 && n == 0)
             return true;
 
-        if (m > 1 && p.charAt(0) == '*' && n == 0)
+        if (n > 1 && p.charAt(0) == '*' && m == 0)
             return false;
-        if ((m > 1 && p.charAt(0) == '?') || (m != 0 && n != 0 && p.charAt(0) == s.charAt(0)))
+
+        if ((n > 1 && p.charAt(0) == '?') || (n != 0 && m != 0 && p.charAt(0) == s.charAt(0)))
             return matchRecur(p.substring(1), s.substring(1));
 
-        if (m != 0 && p.charAt(0) == '*')
+        if (n != 0 && p.charAt(0) == '*')
             return matchRecur(p.substring(1), s) || matchRecur(p, s.substring(1));
 
         return false;
@@ -55,7 +56,9 @@ public class PatternMatchingDP {
 
         if (n == 0)
             return m == 0;
-
+        // m - string, n - pattern
+        // dp[i][j] is true if first i characters in given string matches the
+        // first j characters of pattern.
         boolean[][] dp = new boolean[m + 1][n + 1];
 
         // empty pattern can match with empty string

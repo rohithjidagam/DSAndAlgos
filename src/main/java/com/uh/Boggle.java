@@ -88,6 +88,7 @@ public class Boggle {
         }
 
         // back track
+        str = str.substring(0, str.length() -1);
         visited[i][j] = false;
 
     }

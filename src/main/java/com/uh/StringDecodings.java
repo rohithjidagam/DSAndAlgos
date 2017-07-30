@@ -2,6 +2,8 @@ package com.uh;
 
 public class StringDecodings {
 
+    static String alphabet = "#abcdefghijklmnopqrstuvwxyz";
+
     public static void main(String[] args) {
 
         int[] str = { 1, 2, 1 };
@@ -11,6 +13,28 @@ public class StringDecodings {
 
         int cp = countDp(str, str.length);
         System.out.println(cp);
+
+        String s = "121";
+        printDecodings(s, 0, s.length() - 1, "");
+    }
+
+    private static void printDecodings(String string, int i, int j, String result) {
+        if (i > j) {
+            System.out.println(result);
+            return;
+        }
+
+        int c = Integer.parseInt(string.charAt(j) + "");
+        
+        if (c <= 26)
+            printDecodings(string, i, j - 1, alphabet.charAt(c) + result);
+
+        if (j > 0) {
+            c = Integer.parseInt(string.charAt(j - 1) + "" + string.charAt(j) + "");
+            if (c <= 26)
+                printDecodings(string, i, j - 2, alphabet.charAt(c) + result);
+        }
+
     }
 
     private static int countDp(int[] str, int n) {

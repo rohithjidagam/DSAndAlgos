@@ -23,13 +23,13 @@ public class ArraysExamples {
 
         // trappingRainWater();
 
-        // powerSet();
+         powerSet();
 
         // permutations("ABC");
 
         // countFreq();
 
-        maxSlidingWindow();
+        //maxSlidingWindow();
 
     }
 

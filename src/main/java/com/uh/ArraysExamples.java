@@ -9,6 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.uh.ArraysExamples.Roman;
+
 public class ArraysExamples {
 
     public static void main(String[] args) {
@@ -29,25 +31,120 @@ public class ArraysExamples {
 
         // countFreq();
 
-        //maxSlidingWindow();
-        
+        // maxSlidingWindow();
+
         maxProductSubArray();
-        
+
         productExceptItself();
 
+        // K transactions
+        maxProfit();
+
+        intToRoman();
+
+        romanToInteger();
+
+    }
+
+    private static void romanToInteger() {
+
+        String s = "MMMMMMMMMDCCCLXXVI";
+        HashMap<Character, Integer> map = new HashMap<Character, Integer>();
+        map.put('I', 1);
+        map.put('V', 5);
+        map.put('X', 10);
+        map.put('L', 50);
+        map.put('C', 100);
+        map.put('D', 500);
+        map.put('M', 1000);
+
+        int len = s.length(), result = map.get(s.charAt(len - 1));
+        for (int i = len - 2; i >= 0; i--) {
+            if (map.get(s.charAt(i)) >= map.get(s.charAt(i + 1)))
+                result += map.get(s.charAt(i));
+            else
+                result -= map.get(s.charAt(i));
+        }
+        
+        System.out.println(result);
+    }
+
+    enum Roman {
+        M(1000), CM(900), D(500), CD(400), C(100), XC(90), L(50), XL(40), X(10), IX(9), V(5), IV(4), I(1);
+        final int value;
+
+        private Roman(int v) {
+            value = v;
+        }
+    }
+
+    private static void intToRoman() {
+
+        int n = 9876;
+
+        Roman[] values = Roman.values();
+        String s = "";
+        for (Roman r : values) {
+            while (n >= r.value) {
+                n -= r.value;
+                s += r;
+            }
+        }
+
+        System.out.println(s);
+
+    }
+
+    private static void maxProfit() {
+
+        int[] arr = { 100, 180, 260, 310, 40, 535, 695, 70, 110, 220, 900 };
+        int n = arr.length;
+        int i = 0;
+        int st = 0;
+        int end = 0;
+        int count = 0;
+        int k = 2;
+        while (i < n - 1) {
+
+            // local minima
+            while (i < n - 1 && arr[i + 1] <= arr[i])
+                i++;
+
+            if (i == n - 1) {
+                break;
+            }
+
+            st = i;
+            i++;
+
+            // local maxima
+            while (i < n && arr[i] >= arr[i - 1])
+                i++;
+
+            end = i - 1;
+
+            count++;
+
+            System.out.println(st + "--" + end);
+
+            if (k == count) {
+                break;
+            }
+
+        }
     }
 
     private static void productExceptItself() {
 
-        int[] arr = {1,2,3,4};
+        int[] arr = { 1, 2, 3, 4 };
         int n = arr.length;
         Integer[] res = new Integer[n];
-        
-        res[n-1] = 1;
-        for(int i=n-2;i>=0;i--)
-            res[i] = res[i+1] * arr[i+1];
+
+        res[n - 1] = 1;
+        for (int i = n - 2; i >= 0; i--)
+            res[i] = res[i + 1] * arr[i + 1];
         int left = 1;
-        for(int i=0;i<n;i++){
+        for (int i = 0; i < n; i++) {
             res[i] = left * res[i];
             left = left * arr[i];
         }
@@ -56,26 +153,26 @@ public class ArraysExamples {
 
     private static void maxProductSubArray() {
 
-        int[] arr = {2,3,-2,4};
+        int[] arr = { 2, 3, -2, 4 };
         int n = arr.length;
         int[] max = new int[n];
         int[] min = new int[n];
         int result = arr[0];
-        
+
         max[0] = arr[0];
         min[0] = arr[0];
         for (int i = 1; i < n; i++) {
-            if(arr[i] > 0){
-                max[i] = Math.max(arr[i], max[i-1] * arr[i]);
-                min[i] = Math.min(arr[i], min[i-1] * arr[i]);
-            } else{
-                max[i] = Math.min(arr[i], min[i-1]*arr[i]);
-                min[i] = Math.max(arr[i], max[i-1]*arr[i]);
+            if (arr[i] > 0) {
+                max[i] = Math.max(arr[i], max[i - 1] * arr[i]);
+                min[i] = Math.min(arr[i], min[i - 1] * arr[i]);
+            } else {
+                max[i] = Math.min(arr[i], min[i - 1] * arr[i]);
+                min[i] = Math.max(arr[i], max[i - 1] * arr[i]);
             }
-            
+
             result = Math.max(result, max[i]);
         }
-        
+
         System.out.println(result);
     }
 

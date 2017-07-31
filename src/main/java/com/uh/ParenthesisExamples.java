@@ -80,10 +80,7 @@ public class ParenthesisExamples {
     private static void printParanthesis(int n, int index, char[] ch, int open, int close) {
 
         if (close == n) {
-            for (int i = 0; i < ch.length; i++) {
-                System.out.print(ch[i]);
-            }
-            System.out.println();
+            System.out.println(new String(ch));
             return;
         }
 

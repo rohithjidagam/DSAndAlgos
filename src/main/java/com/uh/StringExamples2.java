@@ -17,7 +17,7 @@ public class StringExamples2 {
         String diff = diff2Large();
         System.out.println(diff);
 
-        reverseString("   a  b  ");
+        reverseString("   a  b  c def ggg  ,, hi");
     }
 
     private static void reverseString(String s) {
@@ -243,10 +243,7 @@ public class StringExamples2 {
         String s = Integer.toBinaryString(x);
         System.out.println(s);
         int i = 0, j = s.length() - 1;
-        while (i < j && s.charAt(i) == s.charAt(j)) {
-            i++;
-            j--;
-        }
+        while (i < j && s.charAt(i++) == s.charAt(j--));
         if (i >= j) {
             output = 1;
             System.out.println(output);

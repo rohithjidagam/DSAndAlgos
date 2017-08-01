@@ -4,11 +4,11 @@ public class ShortestUniquePrefixTrie {
 
     public static void main(String[] args) {
 
-        String arr[] = { "zebra", "dog", "duck", "dove" };
+        String arr[] = { "zebra", "dogword", "ducket", "dovelet" };
 
         findPrefixes(arr, arr.length);
 
-        String arr2[] = { "geeksforgeeks", "geeks", "geek", "geezer" };
+        String arr2[] = { "geekeegsforgeeks", "geekeegs", "geekeeg", "geekeegzer" };
 
         longestCommonPrefix(arr2, arr2.length);
 
@@ -24,6 +24,23 @@ public class ShortestUniquePrefixTrie {
         }
 
         walkTrie(root);
+        
+        //print(root);
+    }
+
+    private static void print(TrieNode root) {
+
+        if(root == null)
+            return;
+        
+       TrieNode[] child = root.child;
+       for (int i=0;i<child.length;i++) {
+           if(child[i]!=null){
+               System.out.println(child[i].freq + " --" + (char) (i + 'a'));
+               print(child[i]);
+           }
+        
+    }
     }
 
     private static void walkTrie(TrieNode root) {
@@ -33,10 +50,10 @@ public class ShortestUniquePrefixTrie {
         Sum sum = new Sum();
         sum.count = 0;
         while (cur != null && cur.child != null && count(cur.child, sum) == 1) {
-            cur = root.child[sum.count];
+            cur = cur.child[sum.count];
             s += (char) (sum.count + 'a');
         }
-
+        
         System.out.println(s);
     }
 
@@ -98,6 +115,9 @@ public class ShortestUniquePrefixTrie {
             } else {
                 cur.child[ch].freq++;
             }
+            
+            if(i == s.length() - 1)
+                cur.isLeaf = true;
 
             cur = cur.child[ch];
 
@@ -109,12 +129,14 @@ public class ShortestUniquePrefixTrie {
 class TrieNode {
     int freq;
     TrieNode[] child;
+    boolean isLeaf;
 
     public static TrieNode getTrieNode() {
 
         TrieNode node = new TrieNode();
         node.freq = 1;
         node.child = new TrieNode[26];
+        node.isLeaf = false;
 
         for (int i = 0; i < 26; i++) {
             node.child[i] = null;

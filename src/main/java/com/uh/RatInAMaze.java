@@ -37,7 +37,8 @@ public class RatInAMaze {
                 dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
             }
         }
-
+        
+        print(dp);
         return dp[M-1][N-1];
 
     }
@@ -49,14 +50,18 @@ public class RatInAMaze {
         if (mazeUtil(mat, 0, 0, sol)) {
             flag = true;
         }
+        print(sol);
+        return flag;
+
+    }
+
+    private static void print(int[][] sol) {
         for (int i = 0; i < sol.length; i++) {
             for (int j = 0; j < sol[i].length; j++) {
                 System.out.print(sol[i][j] + " ");
             }
             System.out.println();
         }
-        return flag;
-
     }
 
     private static boolean mazeUtil(int[][] mat, int i, int j, int[][] sol) {

@@ -14,7 +14,7 @@ public class BackTrackingExamples {
         subsets(lists, new ArrayList<>(), nums, 0);
         print(lists);
 
-        int[] nums2 = { 1, 2, 2 };
+        int[] nums2 = { 2, 1, 2 };
         Arrays.sort(nums2);
         subsetsWithDups(lists, new ArrayList<>(), nums2, 0);
         print(lists);

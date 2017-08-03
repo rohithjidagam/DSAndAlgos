@@ -1,75 +1,107 @@
 package com.uh;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class IntegerToString {
+    HashMap<Integer, String> map = new HashMap<Integer, String>();
 
     public static void main(String[] args) {
 
-        Map<Integer, String> map = new HashMap<>();
-        buildHashMap(map);
-
-        int num = 25456;
-        String n = num + "";
-        int len = n.length();
-
-        System.out.println(recut(map, n, len));
+        IntegerToString iS = new IntegerToString();
+        String string = iS.numberToWords(1234567);
+        System.out.println(string);
 
     }
 
-    private static String recut(Map<Integer, String> map, String n, int len) {
-        int num = Integer.parseInt(n);
-        if (len < 2 || (len < 3 && num < 20)) {
-            return map.get(num);
-        } else if (len < 3) {
-            String f = map.get(Integer.parseInt(n.charAt(0) + "0"));
-            String s = map.get(n.charAt(1));
-            return f + s;
-        } else if (len < 4) {
-            return map.get(Integer.parseInt(n.charAt(0) + "0")) + "hunderd"
-                    + recut(map, n.substring(1), n.substring(1).length());
+    public String numberToWords(int num) {
+        fillMap();
+        StringBuilder sb = new StringBuilder();
 
-        } else if (len < 5) {
-            return map.get(Integer.parseInt(n.charAt(0) + "")) + "thousand"
-                    + recut(map, n.substring(1), n.substring(1).length());
-        } else if (len < 6) {
-            return map.get(Integer.parseInt(n.charAt(0) + "0")) + "thousand"
-                    + recut(map, n.substring(1), n.substring(1).length());
+        if (num == 0) {
+            return map.get(0);
         }
-        return "";
+
+        if (num >= 1000000000) {
+            int extra = num / 1000000000;
+            sb.append(convert(extra) + " Billion");
+            num = num % 1000000000;
+        }
+
+        if (num >= 1000000) {
+            int extra = num / 1000000;
+            sb.append(convert(extra) + " Million");
+            num = num % 1000000;
+        }
+
+        if (num >= 1000) {
+            int extra = num / 1000;
+            sb.append(convert(extra) + " Thousand");
+            num = num % 1000;
+        }
+
+        if (num > 0) {
+            sb.append(convert(num));
+        }
+
+        return sb.toString().trim();
     }
 
-    private static void buildHashMap(Map<Integer, String> map) {
+    public String convert(int num) {
 
-        map.put(1, "one");
-        map.put(2, "two");
-        map.put(3, "three");
-        map.put(4, "four");
-        map.put(5, "five");
-        map.put(6, "six");
-        map.put(7, "seven");
-        map.put(8, "eight");
-        map.put(9, "nine");
-        map.put(10, "ten");
-        map.put(11, "eleven");
-        map.put(12, "twelve");
-        map.put(13, "thirteen");
-        map.put(14, "fourteen");
-        map.put(15, "fifteen");
-        map.put(16, "sixteen");
-        map.put(17, "seventeen");
-        map.put(18, "eighteen");
-        map.put(19, "nineteen");
-        map.put(20, "twenty");
-        map.put(30, "thirty");
-        map.put(40, "forty");
-        map.put(50, "fifty");
-        map.put(60, "sixty");
-        map.put(70, "seventy");
-        map.put(80, "eighty");
-        map.put(90, "ninety");
+        StringBuilder sb = new StringBuilder();
 
+        if (num >= 100) {
+            int numHundred = num / 100;
+            sb.append(" " + map.get(numHundred) + " Hundred");
+            num = num % 100;
+        }
+
+        if (num > 0) {
+            if (num > 0 && num <= 20) {
+                sb.append(" " + map.get(num));
+            } else {
+                int numTen = num / 10;
+                sb.append(" " + map.get(numTen * 10));
+
+                int numOne = num % 10;
+                if (numOne > 0) {
+                    sb.append(" " + map.get(numOne));
+                }
+            }
+        }
+
+        return sb.toString();
+    }
+
+    public void fillMap() {
+        map.put(0, "Zero");
+        map.put(1, "One");
+        map.put(2, "Two");
+        map.put(3, "Three");
+        map.put(4, "Four");
+        map.put(5, "Five");
+        map.put(6, "Six");
+        map.put(7, "Seven");
+        map.put(8, "Eight");
+        map.put(9, "Nine");
+        map.put(10, "Ten");
+        map.put(11, "Eleven");
+        map.put(12, "Twelve");
+        map.put(13, "Thirteen");
+        map.put(14, "Fourteen");
+        map.put(15, "Fifteen");
+        map.put(16, "Sixteen");
+        map.put(17, "Seventeen");
+        map.put(18, "Eighteen");
+        map.put(19, "Nineteen");
+        map.put(20, "Twenty");
+        map.put(30, "Thirty");
+        map.put(40, "Forty");
+        map.put(50, "Fifty");
+        map.put(60, "Sixty");
+        map.put(70, "Seventy");
+        map.put(80, "Eighty");
+        map.put(90, "Ninety");
     }
 
 }

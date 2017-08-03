@@ -2,6 +2,8 @@ package com.uh;
 
 public class DistanceBetweenTwoNodesBinaryTree {
 
+    static boolean left = false;
+    static BNode targetNode = null;
     public static void main(String[] args) {
 
         BinaryTree tree = new BinaryTree();
@@ -14,7 +16,85 @@ public class DistanceBetweenTwoNodesBinaryTree {
         tree.root.left.left = new BNode(4);
         tree.root.left.right = new BNode(5);
         tree.root.right.left.right = new BNode(8);
+        tree.root.right.left.right.right = new BNode(9);
+        tree.root.right.left.right.left = new BNode(10);
 
+        distanceBetweeN2Nodes(tree);
+        System.out.println();
+        System.out.println("*******************");
+        
+        kNodesFromTarget(tree);
+        System.out.println();
+
+    }
+
+    private static void kNodesFromTarget(BinaryTree tree) {
+
+        int k = 3;
+        int target = 3;
+        
+        int d = distance(tree.root, target);
+        System.out.println(d);
+        System.out.println(left);
+
+        if(k-d > 0 && !left){
+            printKNodesRoot(tree.root.left, k-d-1);
+            printKNodesRoot(targetNode, k);
+        }
+        
+        if(k-d > 0 && left){
+            printKNodesRoot(tree.root.right, k-d-1);
+            printKNodesRoot(targetNode, k);
+        }
+        
+        if(k-d < 0 && !left){
+            printKNodesRoot(tree.root.right, -(k-d)-1);
+        }
+        
+        if(k-d < 0 && left){
+            printKNodesRoot(tree.root.left, -(k-d)-1);
+        }
+    }
+
+    private static void printKNodesRoot(BNode root, int k) {
+        
+        if(root == null)
+            return;
+        
+        if(k == 0){
+            System.out.print(root.data + " ");
+            return;
+        }
+        
+        printKNodesRoot(root.left, k-1);
+        printKNodesRoot(root.right, k-1);
+            
+        
+    }
+
+    private static int distance(BNode root, int target) {
+
+        if(root == null)
+            return -1;
+        
+        if(root.data == target){
+            targetNode = root;
+            return 0;
+        }
+        
+        int ld = distance(root.left, target);
+        int rd = distance(root.right, target);
+        
+        if(ld == -1 && rd == -1)
+            return -1;
+        
+        left = ld > rd ? true : false;
+        
+        return Math.max(ld, rd) + 1;
+        
+    }
+
+    private static void distanceBetweeN2Nodes(BinaryTree tree) {
         int n1 = 5;
         int n2 = 8;
 
@@ -33,7 +113,6 @@ public class DistanceBetweenTwoNodesBinaryTree {
         printPath(tree.root,n1);
         System.out.println();
         printPath(tree.root,n2);
-
     }
 
     private static boolean printPath(BNode root, int n1) {

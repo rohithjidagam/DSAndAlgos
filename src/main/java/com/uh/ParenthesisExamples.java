@@ -30,7 +30,7 @@ public class ParenthesisExamples {
         int len = longestValid("()(()))))");
         System.out.println(len);
 
-        //BFS
+        // BFS
         List<String> valid = removeInvalid("()())()");
         System.out.println(Arrays.deepToString(valid.toArray()));
 
@@ -38,6 +38,43 @@ public class ParenthesisExamples {
 
         int min = minReversals("}{{}}{{{");
         System.out.println(min);
+
+        // DFS
+        List<String> res = expressionAddOperators("123", 6);
+        System.out.println(Arrays.deepToString(res.toArray()));
+    }
+
+    private static List<String> expressionAddOperators(String s, int sum) {
+
+        List<String> res = new ArrayList<>();
+        addDFS(s, 0, "", sum, res, 0, 0);
+        return res;
+    }
+
+    private static void addDFS(String s, int i, String res, int sum, List<String> list, long preNum, long cursum) {
+        if (i == s.length() && cursum == sum) {
+            list.add(res);
+            return;
+        }
+
+        if (i == s.length())
+            return;
+
+        for (int j = i; j < s.length(); j++) {
+            String cur = s.substring(i, j + 1);
+
+            if (cur.length() > 1 && cur.charAt(0) == '0')
+                break;
+            long curNum = Long.parseLong(cur);
+
+            if (res.isEmpty()) {
+                addDFS(s, j + 1, cur, sum, list, curNum, curNum);
+            } else {
+                addDFS(s, j + 1, res + "*" + curNum, sum, list, cursum - preNum + preNum * curNum, preNum * curNum);
+                addDFS(s, j + 1, res + "+" + curNum, sum, list, cursum + curNum, curNum);
+                addDFS(s, j + 1, res + "-" + curNum, sum, list, cursum - curNum, -curNum);
+            }
+        }
     }
 
     private static int minReversals(String s) {
@@ -56,19 +93,19 @@ public class ParenthesisExamples {
             } else
                 stack.push(ch);
         }
-        
+
         int cl = 0;
         int op = 0;
-        
-        while(!stack.isEmpty()){
+
+        while (!stack.isEmpty()) {
             Character ch = stack.pop();
-            if(ch == '{')
+            if (ch == '{')
                 op++;
-            if(ch == '}')
+            if (ch == '}')
                 cl++;
         }
 
-        return (int) (Math.ceil(op/2) + Math.ceil(cl/2));
+        return (int) (Math.ceil(op / 2) + Math.ceil(cl / 2));
     }
 
     private static void printParanthesis(int n) {

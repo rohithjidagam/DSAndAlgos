@@ -2,6 +2,7 @@ package com.uh;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.StringTokenizer;
 
 public class SerializeBinaryTree {
 
@@ -27,6 +28,51 @@ public class SerializeBinaryTree {
         
         inorder(node);
         System.out.println();
+        
+        String ser2 = serializeRecur(tree.root);
+        System.out.println(ser2);
+        
+        BNode node2 = deserializeRecur(ser2);
+        inorder(node2);
+    }
+
+    private static BNode deserializeRecur(String s) {
+        StringTokenizer st = new StringTokenizer(s, ",");
+        BNode node = null;
+        return build(node, st);
+    }
+
+    private static BNode build(BNode node, StringTokenizer st) {
+
+        if(!st.hasMoreTokens())
+            return null;
+        
+        String val = st.nextToken();
+        if(val.equals("null") || val.equals(""))
+            return null;
+        node = new BNode(Integer.parseInt(val));
+        node.left = build(node.left, st);
+        node.right = build(node.right, st);
+        return node;
+        
+    }
+
+    private static String serializeRecur(BNode root) {
+
+        StringBuilder sb = new StringBuilder();
+        build(root, sb);
+        return sb.toString();
+    }
+
+    private static void build(BNode root, StringBuilder sb) {
+
+        if(root == null){
+            sb.append("null,");
+            return;
+        }
+        sb.append(root.data + ",");
+        build(root.left, sb);
+        build(root.right, sb);
     }
 
     private static void inorder(BNode node) {

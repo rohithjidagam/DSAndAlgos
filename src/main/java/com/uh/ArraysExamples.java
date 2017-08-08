@@ -44,6 +44,71 @@ public class ArraysExamples {
 
         romanToInteger();
 
+        celebrity(4);
+
+        System.out.println(addBinary("1111", "1111"));
+
+    }
+
+    public static String addBinary(String a, String b) {
+
+        if (a == null || a.length() == 0)
+            return b;
+        if (b == null || b.length() == 0)
+            return a;
+
+        int m = a.length();
+        int n = b.length();
+
+        int i = m - 1;
+        int j = n - 1;
+        String s = "";
+        int carry = 0;
+        while (i >= 0 || j >= 0) {
+
+            int sum = (i >= 0 ? a.charAt(i) - '0' : 0) ^ (j >= 0 ? b.charAt(j) - '0' : 0) ^ carry;
+
+            carry = ((i >= 0 ? a.charAt(i) - '0' : 0) + (j >= 0 ? b.charAt(j) - '0' : 0) + carry) >= 2 ? 1 : 0;
+
+            s = sum + s;
+
+            i--;
+            j--;
+        }
+
+        if (carry > 0)
+            s = carry + s;
+
+        return s;
+
+    }
+
+    private static void celebrity(int n) {
+
+        int[][] map = { { 0, 0, 1, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 0 }, { 0, 0, 1, 0 } };
+
+        int i = 0;
+        int j = n - 1;
+
+        while (i < j) {
+            if (knows(map, i, j))
+                i++;
+            else
+                j--;
+        }
+
+        for (int k = 0; k < n; k++) {
+
+            if (k != i && (knows(map, i, k) || !knows(map, k, i)))
+                return;
+        }
+
+        System.out.println(i);
+
+    }
+
+    private static boolean knows(int[][] map, int i, int j) {
+        return map[i][j] == 1;
     }
 
     private static void romanToInteger() {
@@ -65,7 +130,7 @@ public class ArraysExamples {
             else
                 result -= map.get(s.charAt(i));
         }
-        
+
         System.out.println(result);
     }
 

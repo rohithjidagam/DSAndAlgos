@@ -30,9 +30,11 @@ public class ParenthesisExamples {
         int len = longestValid("()(()))))");
         System.out.println(len);
 
+        System.out.println("*********");
         // BFS
-        List<String> valid = removeInvalid("()())()");
+        List<String> valid = removeInvalid("()()))()");
         System.out.println(Arrays.deepToString(valid.toArray()));
+        System.out.println("*********");
 
         printParanthesis(3);
 
@@ -134,21 +136,20 @@ public class ParenthesisExamples {
     }
 
     private static List<String> removeInvalid(String s) {
-        List<String> res = new ArrayList<>();
+        List<String> res = new ArrayList<String>();
 
-        if (s.isEmpty())
+        if (s == null)
             return res;
-        Queue<String> q = new LinkedList<>();
-        Set<String> set = new HashSet<>();
-        boolean level = true;
-        String temp = "";
+        Queue<String> q = new LinkedList<String>();
+        Set<String> set = new HashSet<String>();
+        boolean level = false;
         q.add(s);
         set.add(s);
 
         while (!q.isEmpty()) {
 
-            String sub = q.poll();
-            if (isValid(sub)) {
+            s = q.poll();
+            if (isValid(s)) {
                 res.add(s);
                 level = true;
             }
@@ -159,10 +160,10 @@ public class ParenthesisExamples {
             for (int i = 0; i < s.length(); i++) {
                 char ch = s.charAt(i);
 
-                if (!(ch == '(' || ch == ')'))
+                if (ch != '(' && ch != ')')
                     continue;
 
-                temp = s.substring(0, i) + s.substring(i + 1);
+                String temp = s.substring(0, i) + s.substring(i + 1);
                 if (!set.contains(temp)) {
                     set.add(temp);
                     q.add(temp);

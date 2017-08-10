@@ -1,7 +1,16 @@
 package com.uh;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class BSTExamples {
 
+     //mode
+    static BSTNode prev = null;
+    static int max = Integer.MIN_VALUE;
+    private static int count = 1;
+    
     public static void main(String[] args) {
 
         BSTNode root = new BSTNode(50);
@@ -53,13 +62,45 @@ public class BSTExamples {
         root1.left = new BSTNode(30);
         root1.right = new BSTNode(70);
         root1.left.left = new BSTNode(20);
+        root1.left.left.left = new BSTNode(20);
         root1.left.right = new BSTNode(40);
         root1.right.left = new BSTNode(60);
         root1.right.right = new BSTNode(80);
+        root1.right.right.left = new BSTNode(80);
         BSTNode sucs = inorderSuccesor(root1, root1.right.left);
         System.out.println(sucs.data);
         
+        List<Integer> modes = new ArrayList<>();
+        mode(root1, modes);
+        System.out.println(Arrays.deepToString(modes.toArray()));
 
+    }
+
+    //inorder
+    private static void mode(BSTNode node, List<Integer> modes) {
+
+        if(node == null)
+            return;
+        
+        mode(node.left, modes);
+        
+        if(prev != null){
+            if(node.data == prev.data)
+                count++;
+            else
+                count = 1;
+        }
+        
+        if(count > max){
+            max = count;
+            modes.clear();
+            modes.add(node.data);
+        } else if(count == max){
+            modes.add(node.data);
+        }
+        prev = node;
+        mode(node.right, modes);
+        
     }
 
     private static BSTNode inorderSuccesor(BSTNode root, BSTNode n) {

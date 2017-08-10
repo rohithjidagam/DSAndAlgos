@@ -43,6 +43,32 @@ public class BackTrackingExamples {
         palindromePartitions(lists, new ArrayList<>(), s, 0);
         print(lists);
 
+        String st = "ABC";
+        List<String> list = new ArrayList<>();
+        permutations(st, 0, st.length() - 1, list);
+        System.out.println(Arrays.deepToString(list.toArray()));
+    }
+
+    private static void permutations(String s, int i, int j, List<String> list) {
+        if (i == j) {
+            list.add(s);
+        }
+        for (int k = i; k <= j; k++) {
+            s = swap(s, k, i);
+            permutations(s, i + 1, j, list);
+            s = swap(s, k, j);
+        }
+
+    }
+
+    private static String swap(String s, int i, int j) {
+
+        char[] ch = s.toCharArray();
+        char temp = ch[i];
+        ch[i] = ch[j];
+        ch[j] = temp;
+        return new String(ch);
+
     }
 
     private static void palindromePartitions(List<List<Integer>> lists, ArrayList temp, String s, int st) {

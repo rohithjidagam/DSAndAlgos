@@ -20,7 +20,7 @@ public class PatternMatchingDP {
     public static void main(String[] args) {
 
         String str = "abcd";
-        String pattern = ".*";
+        String pattern = "a*";
 
         int m = str.length();
         int n = pattern.length();
@@ -30,6 +30,110 @@ public class PatternMatchingDP {
 
         boolean matchR = matchRecur(pattern, str);
         System.out.println(matchR);
+
+        // '.' Matches any single character.
+        // '*' Matches zero or more of the preceding element.
+        // Note preceding with *
+
+        String str2 = "aab";
+        String pat2 = "c*a*b"; // 0c 2a 1b matches.
+
+        boolean m1 = isMatch(str2, pat2);
+        System.out.println(m1);
+
+        boolean m2 = matchDP(str2, pat2);
+        System.out.println(m2);
+    }
+
+    private static boolean isMatch(String s, String p) {
+        // base case
+        int n = p.length();
+        int m = s.length();
+
+        if (n == 0) {
+            return m == 0;
+        }
+
+        // special case
+        if (n == 1) {
+
+            // if the length of s is 0, return false
+            if (m < 1) {
+                return false;
+            }
+
+            // if the first does not match, return false
+            else if ((p.charAt(0) != s.charAt(0)) && (p.charAt(0) != '.')) {
+                return false;
+            }
+
+            // otherwise, compare the rest of the string of s and p.
+            else {
+                return isMatch(s.substring(1), p.substring(1));
+            }
+        }
+
+        // case 1: when the second char of p is not '*'
+        if (p.charAt(1) != '*') {
+            if (m < 1) {
+                return false;
+            }
+            if ((p.charAt(0) != s.charAt(0)) && (p.charAt(0) != '.')) {
+                return false;
+            } else {
+                return isMatch(s.substring(1), p.substring(1));
+            }
+        }
+
+        // case 2: when the second char of p is '*', complex case.
+        else {
+            // case 2.1: a char & '*' can stand for 0 element
+            if (isMatch(s, p.substring(2))) {
+                return true;
+            }
+
+            // case 2.2: a char & '*' can stand for 1 or more preceding element,
+            // so try every sub string
+            int i = 0;
+            while (i < m && (s.charAt(i) == p.charAt(0) || p.charAt(0) == '.')) {
+                if (isMatch(s.substring(i + 1), p.substring(2))) {
+                    return true;
+                }
+                i++;
+            }
+            return false;
+        }
+    }
+
+    private static boolean matchDP(String s, String p) {
+
+        int m = s.length();
+        int n = p.length();
+        boolean[][] dp = new boolean[m + 1][n + 1];
+        dp[0][0] = true;
+        for (int i = 0; i < n; i++) {
+            if (p.charAt(i) == '*' && dp[0][i - 1]) {
+                dp[0][i + 1] = true;
+            }
+        }
+        for (int i = 1; i <= m; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (p.charAt(j - 1) == '.') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                }
+                if (p.charAt(j - 1) == s.charAt(i - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                }
+                if (p.charAt(j - 1) == '*') {
+                    if (p.charAt(j - 2) != s.charAt(i - 1) && p.charAt(j - 2) != '.') {
+                        dp[i][j] = dp[i][j - 2];
+                    } else {
+                        dp[i][j] = (dp[i][j - 1] || dp[i][j - 2] || dp[i - 1][j]);
+                    }
+                }
+            }
+        }
+        return dp[m][n];
     }
 
     private static boolean matchRecur(String p, String s) {

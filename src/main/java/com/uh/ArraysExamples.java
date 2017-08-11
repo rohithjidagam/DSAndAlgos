@@ -47,7 +47,39 @@ public class ArraysExamples {
         celebrity(4);
 
         System.out.println(addBinary("1111", "1111"));
+        
+        System.out.println(excelColumnName(987));
+        
+        System.out.println(excelColumnNumber("AKY"));
 
+    }
+    
+    private static int excelColumnNumber(String s) {
+        int num = 0;
+        for (int i = 0; i < s.length(); i++) {
+            num = num * 26;
+            int n = s.charAt(i) - 'A' + 1;
+            num += n;
+        }
+        return num;
+    }
+
+    private static String excelColumnName(int n) {
+
+        String s = "";
+        int r;
+        while (n > 0) {
+            r = n % 26;
+            if (r == 0) {
+                s = "Z" + s;
+                n = n / 26 - 1;
+            } else {
+                char c = (char) ((r - 1) + 'A');
+                s = c + s;
+                n = n / 26;
+            }
+        }
+        return s;
     }
 
     public static String addBinary(String a, String b) {

@@ -214,10 +214,7 @@ public class StringExamples {
         Map<Character, Integer> map = new HashMap<>();
 
         for (int i = 0; i < str.length(); i++) {
-            if (map.get(str.charAt(i)) == null)
-                map.put(str.charAt(i), 1);
-            else
-                map.put(str.charAt(i), map.get(str.charAt(i)) + 1);
+            map.put(str.charAt(i), map.getOrDefault(str.charAt(i), 0) + 1);
         }
 
         for (Character c : map.keySet()) {

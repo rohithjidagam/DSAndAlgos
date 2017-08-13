@@ -44,37 +44,132 @@ public class ParenthesisExamples {
         // DFS
         List<String> res = expressionAddOperators("123", 6);
         System.out.println(Arrays.deepToString(res.toArray()));
+
+        int[] nums = { 7, 2, 5, 10, 8 };
+        splitArray(nums, 2);
     }
 
-    private static List<String> expressionAddOperators(String s, int sum) {
+    /*
+     * The problem can be solved by using binary search, which is a quite
+     * brilliant way. If m equals length of the array, the largest sum should be
+     * the maximum among the elements. If m equals 1, then it should be the sum
+     * of all elements in the array. Now the maximum sum of a subarray should be
+     * between these two numbers.
+     * 
+     * The idea is to using binary search and find this minimum maximum sum. We
+     * set left to the maximum element of the array and right to the sum of the
+     * array. First we choose the mid of these two and find if there exist m
+     * subarrays that have largest sum less than or equal to mid. If we can find
+     * such split, we know we probably can do better. So we set right to mid. We
+     * keep on doing this until we find a value that we cannot get by splitting
+     * the array to m subarrays, i.e., the number is too small that we need to
+     * split the array further more. Now we increase left to mid + 1. When left
+     * = right, we find the number.
+     * 
+     * 
+     * [7, 2, 5, 10, 8] m = 2
+     * 
+     * left = 10, right = 32, mid = 21 => [7, 2, 5], [10, 8]
+     * 
+     * left = 10, right = 21, mid = 15 => [7, 2], [10, 5],[8]
+     * 
+     * left = 16, right = 21, mid = 18 => [7, 2], [10, 8]
+     * 
+     * left = 16, right = 18, mid = 17 => [7, 2], [10, 5],[8]
+     * 
+     * left = 18, right = 18 => return 18
+     * 
+     * http://shirleyisnotageek.blogspot.com/2016/10/split-array-largest-sum.html
+     */
+    private static void splitArray(int[] nums, int m) {
 
-        List<String> res = new ArrayList<>();
-        addDFS(s, 0, "", sum, res, 0, 0);
-        return res;
-    }
+        int sum = 0;
+        int max = -1;
 
-    private static void addDFS(String s, int i, String res, int sum, List<String> list, long preNum, long cursum) {
-        if (i == s.length() && cursum == sum) {
-            list.add(res);
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+            max = Math.max(max, nums[i]);
+        }
+
+        if (m == nums.length) {
+            System.out.println(max);
+            return;
+        }
+        if (m == 1) {
+            System.out.println(sum);
             return;
         }
 
-        if (i == s.length())
+        int l = max;
+        int r = sum;
+
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (isValid(mid, nums, m))
+                r = mid;
+            else
+                l = mid + 1;
+        }
+
+        System.out.println(l);
+    }
+
+    public static boolean isValid(long target, int[] nums, int m) {
+        int count = 1;
+        long total = 0;
+        for (int num : nums) {
+            total += num;
+            if (total > target) {
+                total = num;
+                count++;
+                if (count > m) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private static List<String> expressionAddOperators(String num, int target) {
+
+        List<String> list = new ArrayList<>();
+        add(list, "", num, target, 0, 0, 0);
+        return list;
+    }
+
+    /**
+     * 
+     * @param list
+     * @param res
+     * @param input
+     * @param target
+     * @param pos
+     * @param curVal
+     * @param lastVal
+     */
+    static void add(List<String> list, String res, String input, int target, int pos, long curVal, long lastVal) {
+
+        if (pos == input.length()) {
+            if (curVal == target) {
+                list.add(res);
+            }
             return;
+        }
 
-        for (int j = i; j < s.length(); j++) {
-            String cur = s.substring(i, j + 1);
+        for (int i = pos; i < input.length(); i++) {
 
-            if (cur.length() > 1 && cur.charAt(0) == '0')
+            if (i != pos && input.charAt(pos) == '0')
                 break;
-            long curNum = Long.parseLong(cur);
 
-            if (res.isEmpty()) {
-                addDFS(s, j + 1, cur, sum, list, curNum, curNum);
+            String sub = input.substring(pos, i + 1);
+            Long cur = Long.parseLong(sub);
+
+            if (pos == 0) {
+                add(list, res + sub, input, target, i + 1, cur, cur);
             } else {
-                addDFS(s, j + 1, res + "*" + curNum, sum, list, cursum - preNum + preNum * curNum, preNum * curNum);
-                addDFS(s, j + 1, res + "+" + curNum, sum, list, cursum + curNum, curNum);
-                addDFS(s, j + 1, res + "-" + curNum, sum, list, cursum - curNum, -curNum);
+                add(list, res + "+" + sub, input, target, i + 1, curVal + cur, cur);
+                add(list, res + "-" + sub, input, target, i + 1, curVal - cur, -cur);
+                add(list, res + "*" + sub, input, target, i + 1, curVal - lastVal + lastVal * cur, lastVal * cur);
             }
         }
     }

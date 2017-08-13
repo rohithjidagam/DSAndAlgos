@@ -1,6 +1,7 @@
 package com.uh;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -10,8 +11,8 @@ public class MedianStream {
         // TODO Auto-generated method stub
 
         int a[] = { 5, 15, 1, 3, 2, 8, 7, 9, 10, 6, 11, 4 };
-        
-        Queue<IntegersMax> max = new PriorityQueue<IntegersMax>();
+
+        Queue<Integer> max = new PriorityQueue<Integer>(Collections.reverseOrder());
 
         Queue<Integer> min = new PriorityQueue<Integer>();
 
@@ -25,32 +26,32 @@ public class MedianStream {
 
             switch (diff) {
 
-            case 0://same size
+            case 0:// same size
                 if (a[i] < m) {
-                    max.add(new IntegersMax(a[i]));
-                    m = max.peek().i;
+                    max.add(a[i]);
+                    m = max.peek();
                 } else {
                     min.add(a[i]);
                     m = min.peek();
                 }
                 break;
-            case 1: //Max has more elements
+            case 1: // Max has more elements
                 if (a[i] < m) {
-                    min.add(max.poll().i);
-                    max.add(new IntegersMax(a[i]));
+                    min.add(max.poll());
+                    max.add(a[i]);
                 } else {
                     min.add(a[i]);
                 }
-                m = (max.peek().i + min.peek()) / 2;
+                m = (max.peek() + min.peek()) / 2;
                 break;
-            case -1: //Min has more elements
+            case -1: // Min has more elements
                 if (a[i] < m) {
-                    max.add(new IntegersMax(a[i]));
+                    max.add(a[i]);
                 } else {
-                    max.add(new IntegersMax(min.poll()));
+                    max.add(min.poll());
                     min.add(a[i]);
                 }
-                m = (max.peek().i + min.peek()) / 2;
+                m = (max.peek() + min.peek()) / 2;
                 break;
             }
             System.out.println(m + "                        " + Arrays.deepToString(min.toArray()) + "               "

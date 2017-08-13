@@ -2,7 +2,7 @@ package com.uh;
 
 import java.util.LinkedList;
 
-public class PriorityQueue {
+public class PriorityQueueExamples {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub

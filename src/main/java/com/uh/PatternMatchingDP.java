@@ -19,8 +19,8 @@ public class PatternMatchingDP {
      */
     public static void main(String[] args) {
 
-        String str = "abcd";
-        String pattern = "a*";
+        String str = "aab";
+        String pattern = "c*a*b";
 
         int m = str.length();
         int n = pattern.length();
@@ -30,6 +30,11 @@ public class PatternMatchingDP {
 
         boolean matchR = matchRecur(pattern, str);
         System.out.println(matchR);
+        
+        boolean matchL = matchLinear(pattern, str);
+        System.out.println(matchL);
+        
+        
 
         // '.' Matches any single character.
         // '*' Matches zero or more of the preceding element.
@@ -43,6 +48,47 @@ public class PatternMatchingDP {
 
         boolean m2 = matchDP(str2, pat2);
         System.out.println(m2);
+    }
+
+    private static boolean matchLinear(String p, String s) {
+
+        int m = s.length();
+        int n = p.length();
+        
+        int i = 0; //string
+        int j= 0; //pattern
+        int match = 0;
+        int start = -1;
+        
+        while(i < m){
+            // advancing both pointers
+            if( j <n && p.charAt(j) == '?' || p.charAt(j) == s.charAt(i)){
+                i++;
+                j++;
+                
+            }// * found, only advancing pattern pointer 
+            else if(j < n && p.charAt(j) == '*'){
+                start = j;
+                match = i;
+                j++;
+            } //last pattern pointer was *, advancing string pointer
+            else if(start != -1){
+                j = start + 1;
+                match++;
+                i = match;
+            } else{
+                //current pattern pointer is not star, last patter pointer was not *
+                //characters do not match
+                return false;
+            }
+        }
+        
+      //check for remaining characters in pattern
+        while(j < n && p.charAt(j) == '*')
+            j++;
+        
+        return j == n;
+        
     }
 
     private static boolean isMatch(String s, String p) {

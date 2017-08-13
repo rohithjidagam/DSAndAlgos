@@ -21,14 +21,16 @@ public class LRUCache {
         cache.set(1, 1);
         cache.set(2, 2);
         cache.set(3, 3);
-        cache.get(2);
+        System.out.println(cache.head.key);
+        System.out.println(cache.get(2));
+        System.out.println(cache.head.key);
         cache.set(4, 4);
         cache.set(5, 5);
         cache.set(5, 6);
         cache.set(6, 1);
-        cache.get(1); // return -1 as it is deleted by this point. 
+        System.out.println(cache.get(1)); // return -1 as it is deleted by this point. 
         cache.set(3, 4);
-        cache.get(2);
+        System.out.println(cache.get(2));
         
         
         

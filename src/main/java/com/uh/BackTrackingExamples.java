@@ -56,11 +56,16 @@ public class BackTrackingExamples {
         factorCombinations(lists, new ArrayList<>(), n, 2);
         print(lists);
 
+        int k = 3;
+        sum = 9;
+        combinaitonsSumWithKNums(lists, new ArrayList<>(), k, 1, sum);
+        print(lists);
+
         String sp = "aabbc";
         List<String> list2 = generatePalindromes(sp);
         printList(list2);
 
-        //nums = 123 -> 132
+        // nums = 123 -> 132
         nextPermutation(nums);
         for (int i = 0; i < nums.length; i++) {
             System.out.print(nums[i] + " ");
@@ -68,49 +73,62 @@ public class BackTrackingExamples {
         System.out.println();
     }
 
+    private static void combinaitonsSumWithKNums(List<List<Integer>> lists, ArrayList temp, int k, int st, int sum) {
+        if (temp.size() == k && sum == 0) {
+            lists.add(new ArrayList(temp));
+            return;
+        }
+        for (int i = st; i <= 9; i++) {
+            temp.add(i);
+            combinaitonsSumWithKNums(lists, temp, k, i + 1, sum - i);
+            temp.remove(temp.size() - 1);
+        }
+
+    }
+
     private static void nextPermutation(int[] nums) {
 
-        int k =-1;
-        
-        //largest k such that arr[k] < arr[k+1]
+        int k = -1;
+
+        // largest k such that arr[k] < arr[k+1]
         for (int i = nums.length - 2; i >= 0; i--) {
-            if(nums[i] < nums[i+1]){
+            if (nums[i] < nums[i + 1]) {
                 k = i;
                 break;
             }
         }
-        
-        if(k == -1){ //means arr elements are in descending order
-            reverse(nums, 0, nums.length-1);
+
+        if (k == -1) { // means arr elements are in descending order
+            reverse(nums, 0, nums.length - 1);
         }
-        
+
         int l = -1;
-        //largest index l greater than k such that nums[k] < nums[l].
+        // largest index l greater than k such that nums[k] < nums[l].
         for (int i = nums.length - 1; i > k; i--) {
-            if(nums[i] > nums[k]){
+            if (nums[i] > nums[k]) {
                 l = i;
                 break;
             }
         }
-        
-        //swap
+
+        // swap
         int temp = nums[k];
         nums[k] = nums[l];
         nums[l] = temp;
-        
-        reverse(nums, k+1, nums.length-1);
+
+        reverse(nums, k + 1, nums.length - 1);
     }
 
     private static void reverse(int[] nums, int l, int r) {
 
-        while(l < r){
+        while (l < r) {
             int temp = nums[l];
             nums[l] = nums[r];
             nums[r] = temp;
             l++;
             r--;
         }
-        
+
     }
 
     private static List<String> generatePalindromes(String s) {
@@ -120,10 +138,10 @@ public class BackTrackingExamples {
         for (int i = 0; i < s.length(); i++) {
             map.put(s.charAt(i), map.getOrDefault(s.charAt(i), 0) + 1);
         }
-        
+
         Set<Character> keySet = map.keySet();
         for (Character character : keySet) {
-            if(map.get(character) %2 != 0)
+            if (map.get(character) % 2 != 0)
                 odd++;
         }
 
@@ -195,7 +213,7 @@ public class BackTrackingExamples {
         for (int k = i; k <= j; k++) {
             s = swap(s, k, i);
             permutations(s, i + 1, j, list);
-            s = swap(s, k, j);
+            s = swap(s, k, i);
         }
 
     }
@@ -313,13 +331,13 @@ public class BackTrackingExamples {
         }
 
     }
-    
+
     private static void printList(List<String> list) {
         System.out.println(Arrays.deepToString(list.toArray()));
         list.clear();
         System.out.println("*******************");
     }
-    
+
     private static void print(List<List<Integer>> lists) {
         for (List<Integer> l : lists) {
             System.out.println(Arrays.deepToString(l.toArray()));

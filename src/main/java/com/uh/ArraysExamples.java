@@ -261,8 +261,8 @@ public class ArraysExamples {
                 max[i] = Math.max(arr[i], max[i - 1] * arr[i]);
                 min[i] = Math.min(arr[i], min[i - 1] * arr[i]);
             } else {
-                max[i] = Math.min(arr[i], min[i - 1] * arr[i]);
-                min[i] = Math.max(arr[i], max[i - 1] * arr[i]);
+                max[i] = Math.max(arr[i], min[i - 1] * arr[i]);
+                min[i] = Math.min(arr[i], max[i - 1] * arr[i]);
             }
 
             result = Math.max(result, max[i]);

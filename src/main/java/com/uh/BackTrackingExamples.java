@@ -71,6 +71,30 @@ public class BackTrackingExamples {
             System.out.print(nums[i] + " ");
         }
         System.out.println();
+        System.out.println("***********************");
+
+        String ip = "25525511135";
+        restoreIPAddress(ip, list, "", 0, 0);
+        printList(list);
+    }
+
+    private static void restoreIPAddress(String ip, List<String> list, String cur, int id, int count) {
+
+        if (count > 4)
+            return;
+        if (count == 4 && id == ip.length()) {
+            list.add(cur);
+        }
+
+        for (int i = 1; i < 4; i++) {
+            if (id + i > ip.length())
+                break;
+            String s = ip.substring(id, id + i);
+            if ((s.startsWith("0") && s.length() > 1) || (i == 3 && Integer.parseInt(s) >= 256))
+                continue;
+            restoreIPAddress(ip, list, cur + s + (count == 3 ? "" : "."), id + i, count + 1);
+        }
+
     }
 
     private static void combinaitonsSumWithKNums(List<List<Integer>> lists, ArrayList temp, int k, int st, int sum) {

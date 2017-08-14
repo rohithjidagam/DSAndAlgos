@@ -40,25 +40,15 @@ public class HashExamples {
         int[] arr = { 2, 1, 3, 4, 2, 1, 5, 1, 7 };
         maxDiffBetOccurences(arr, arr.length);
 
-        minWindow("ADOBECODEBANC", "ABC");
-
-    }
-
-    private static void minWindow(String s, String t) {
-
-        int m = s.length();
-        int n = t.length();
-
-        Map<Character, Integer> map = new HashMap<>();
-
-        for (int i = 0; i < n; i++) {
-            char ch = t.charAt(i);
-            if (map.containsKey(ch)) {
-                map.put(ch, map.get(ch) + 1);
-            } else {
-                map.put(ch, 1);
-            }
-        }
+        int[] arr5 = { 1, 1, 1, 1, 1 };
+        System.out.println(subarraySum(arr5, 2));
+        
+        /*
+         * check if the array has a continuous subarray of size at least 2 that 
+         * sums up to the multiple of k, that is, sums up to n*k where n is also an integer.
+         */
+        int[] arr6 = {23, 2, 6, 4, 7};
+        System.out.println(checkSubarraySum(arr6, 6));
 
     }
 
@@ -207,6 +197,48 @@ public class HashExamples {
 
         }
 
+    }
+
+    private static boolean checkSubarraySum(int[] nums, int k) {
+
+        Map<Integer, Integer> map = new HashMap<>();
+        int sum = 0;
+        map.put(0, -1);
+
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+
+            if (k != 0)
+                sum %= k;
+
+            if (map.containsKey(sum)) {
+                if (i - map.get(sum) >= 2)
+                    return true;
+            } else
+                map.put(sum, i);
+            
+            System.out.println(map);
+        }
+
+        return false;
+    }
+
+    private static int subarraySum(int[] nums, int k) {
+
+        Map<Integer, Integer> map = new HashMap<>();
+        int sum = 0;
+        int count = 0;
+        map.put(0, 1);
+
+        for (int i = 0; i < nums.length; i++) {
+            sum += nums[i];
+
+            if (map.containsKey(sum - k))
+                count += map.get(sum - k);
+
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+        }
+        return count;
     }
 
     private static void largestSubArrayContiguous() {

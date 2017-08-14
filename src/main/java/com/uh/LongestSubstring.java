@@ -10,11 +10,68 @@ public class LongestSubstring {
         String str = "aababcac";
         int n = str.length();
 
-       // int l = longSubLength(str, n);
-       // System.out.println(l);
+        int l = longSubLength(str, n);
+        System.out.println(l);
 
         int l2 = longSubStringHashSet(str);
         System.out.println(l2);
+
+        String text = "ADOBECODEBANC";
+        String pat = "ABC";
+
+        String res = minWindowSubString(text, pat);
+        System.out.println(res);
+    }
+
+    private static String minWindowSubString(String s, String p) {
+
+        int m = s.length();
+        int n = p.length();
+
+        if (n > m)
+            return "";
+
+        int[] text = new int[256];
+        int[] pat = new int[256];
+
+        for (int i = 0; i < n; i++) {
+            pat[p.charAt(i)]++;
+        }
+
+        int count = 0;
+        int start = 0;
+        int st_ind = -1;
+        int min = Integer.MAX_VALUE;
+
+        for (int i = 0; i < m; i++) {
+
+            char ch = s.charAt(i);
+
+            text[ch]++;
+
+            if (pat[ch] != 0 && text[ch] <= pat[ch])
+                count++;
+
+            if (count == n) {
+                while (pat[s.charAt(start)] == 0 || text[s.charAt(start)] > pat[s.charAt(start)]) {
+                    if (text[s.charAt(start)] > pat[s.charAt(start)])
+                        text[s.charAt(start)]--;
+                    start++;
+                }
+
+                int len = i - start + 1;
+                if (len < min) {
+                    min = len;
+                    st_ind = start;
+                }
+
+            }
+        }
+
+        if (st_ind == -1)
+            return "";
+
+        return s.substring(st_ind, st_ind + min);
     }
 
     private static int longSubStringHashSet(String s) {
@@ -42,7 +99,7 @@ public class LongestSubstring {
 
             i++;
         }
-        
+
         max = Math.max(max, set.size());
 
         return max;

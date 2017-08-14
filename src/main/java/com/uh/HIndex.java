@@ -25,7 +25,7 @@ public class HIndex {
             int mid = l + (r - l) / 2;
             if (citations[mid] == n - mid)
                 return n - mid;
-            if (citations[mid] < citations.length - mid)
+            if (citations[mid] < n - mid)
                 l = mid + 1;
             else
                 r = mid;

@@ -9,9 +9,10 @@ public class EditDistance {
 
         System.out.println(editDistRec(st1, st2, st1.length(), st2.length()));
         System.out.println(editDistDP(st1, st2, st1.length(), st2.length()));
-
-        String st3 = "sat";
-        System.out.println(isEditDist1(st1, st3));
+        System.out.println(isEditDist1("teacher", "tache"));
+        
+        double d = 25;
+        System.out.println(d/2);
     }
 
     private static boolean isEditDist1(String st1, String st2) {
@@ -25,29 +26,23 @@ public class EditDistance {
 
             if (st1.charAt(i) != st2.charAt(j)) {
 
-                if (count == 1)
-                    return false;
+                if (st1.charAt(i) != st2.charAt(j)) {
 
-                if (m > n)
-                    i++;
-                else if (m < n)
-                    j++;
-                else {
-                    i++;
-                    j++;
+                    count++;
+                    if (count > 1)
+                        return false;
+
+                    if (m > n)
+                        j--;
+                    else if (m < n)
+                        i--;
                 }
-                count++;
-            } else {
-                i++;
-                j++;
             }
+            i++;
+            j++;
 
         }
-
-        if (i < m || j < n)
-            count++;
-     
-        return count == 1;
+        return ((count == 1) || (count == 0 && m != n)) ? true : false;
     }
 
     private static int editDistDP(String st1, String st2, int m, int n) {

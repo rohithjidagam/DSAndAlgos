@@ -2,6 +2,7 @@ package com.uh;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -58,7 +59,7 @@ public class HashExamples {
         int max = -1;
 
         for (int i = 0; i < n; i++) {
-
+            
             if (map.containsKey(arr[i])) {
 
                 if (i - map.get(arr[i]) > max) {

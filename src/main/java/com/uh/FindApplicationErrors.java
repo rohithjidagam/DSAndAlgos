@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Queue;
 import java.util.Set;
-
+/*
 public class FindApplicationErrors {
 
     class Application implements Comparator<Application> {
@@ -78,4 +78,4 @@ public class FindApplicationErrors {
         a.parseDirectory(topLevelDirectory);
 
     }
-}
+} */

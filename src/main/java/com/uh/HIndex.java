@@ -14,6 +14,32 @@ public class HIndex {
         Arrays.sort(citations);
         int bfs = sortedApproach(citations);
         System.out.println(bfs);
+
+        int[] arr = { 3, 4, 1, 9, 56, 7, 9, 12 };
+        int m = 5;
+        // 3,4,7,9,9
+        int chocs = chocolateDistribution(arr, m);
+        System.out.println(chocs);
+    }
+
+    private static int chocolateDistribution(int[] arr, int m) {
+
+        Arrays.sort(arr);
+
+        int n = arr.length;
+
+        int st = 0, end = 0, min = Integer.MAX_VALUE;
+
+        for (int i = 0; i + m - 1 < n; i++) {
+
+            int diff = arr[i + m - 1] - arr[i];
+            if (diff < min) {
+                min = diff;
+                st = i;
+                end = i + m - 1;
+            }
+        }
+        return arr[end] - arr[st];
     }
 
     private static int sortedApproach(int[] citations) {

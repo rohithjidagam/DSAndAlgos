@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
  
- 
+ /*
 public class ParingLot {
     PriorityQueue<ParkingSpace> handicapParkingSpaceQueue;
     PriorityQueue<ParkingSpace> normalParkingSpaceQueue;
@@ -93,4 +93,4 @@ public class ParingLot {
         lot1.unpark(c2);
         lot1.park(c3);
     }
-}
+} */

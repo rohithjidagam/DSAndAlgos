@@ -27,53 +27,85 @@ public class MaxProfitStocks {
 
         // O(k*n)
         optimizedKTransactions(k, price, n, dp);
-        
+
         k2tranSactions(price, n);
-        
+
+        //3 state machine
+        /*
+         *  rest(self loop)
+         *  s0 --rest- s2
+         *    \buy    /sell
+         *     \     /
+         *     \s1/
+         *     rest(self loop)
+         */
+        maxProfitWithCoolDown();
+
         maxSumNotConsecutive();
-        
-        //without skipping 2 consecutive
+
+        // without skipping 2 consecutive
         minTimeToFinishTaks();
-        
-        
+
+    }
+
+    private static void maxProfitWithCoolDown() {
+
+        int[] prices = { 1, 2, 3, 0, 2 };
+        int n = prices.length;
+
+        int[] s0 = new int[n];
+        int[] s1 = new int[n];
+        int[] s2 = new int[n];
+
+        s0[0] = 0;
+        s1[0] = -prices[0];
+        s2[0] = Integer.MIN_VALUE;
+
+        for (int i = 1; i < s2.length; i++) {
+            s0[i] = Math.max(s0[i - 1], s2[i - 1]);
+            s1[i] = Math.max(s1[i - 1], s0[i - 1] - prices[i]);
+            s2[i] = prices[i] + s1[i - 1];
+        }
+
+        System.out.println(Math.max(s0[n - 1], s2[n - 1]));
     }
 
     private static void minTimeToFinishTaks() {
 
-        int arr[] = {10, 5, 2, 4, 8, 6, 7, 10};
-        
+        int arr[] = { 10, 5, 2, 4, 8, 6, 7, 10 };
+
         int incl = arr[0];
         int excl = 0;
-        
+
         for (int i = 1; i < arr.length; i++) {
-            
+
             int inclNew = arr[i] + Math.min(incl, excl);
             int exclNew = incl;
-            
+
             incl = inclNew;
             excl = exclNew;
         }
-        
+
         System.out.println(excl);
-        
+
     }
 
     private static void maxSumNotConsecutive() {
 
-        int arr[] = {5, 5, 10, 100, 10, 5};
-        
+        int arr[] = { 5, 5, 10, 100, 10, 5 };
+
         int incl = arr[0];
         int excl = 0;
-        
+
         for (int i = 1; i < arr.length; i++) {
-            
+
             int inclNew = arr[i] + excl;
             int exclNew = incl;
-            
+
             incl = inclNew;
             excl = exclNew;
         }
-        
+
         System.out.println(incl);
     }
 
@@ -81,30 +113,28 @@ public class MaxProfitStocks {
 
         int left[] = new int[n];
         int right[] = new int[n];
-        
+
         int min = price[0];
         left[0] = 0;
         for (int i = 1; i < n; i++) {
-            left[i] = Math.max(left[i-1], price[i] - min);
+            left[i] = Math.max(left[i - 1], price[i] - min);
             min = Math.min(min, price[i]);
         }
-        
-        int max = price[n-1];
-        right[n-1] = 0;
-        for (int i = n-2; i >= 0; i--) {
-            right[i] = Math.max(right[i+1], max - price[i]);
+
+        int max = price[n - 1];
+        right[n - 1] = 0;
+        for (int i = n - 2; i >= 0; i--) {
+            right[i] = Math.max(right[i + 1], max - price[i]);
             max = Math.max(max, price[i]);
         }
-        
+
         int profit = 0;
         for (int i = 0; i < n; i++) {
             profit = Math.max(profit, left[i] + right[i]);
         }
-        
+
         System.out.println(profit);
-        
-        
-        
+
     }
 
     private static void optimizedKTransactions(int k, int[] price, int n, int[][] dp) {
@@ -116,7 +146,7 @@ public class MaxProfitStocks {
                 dp[i][j] = Math.max(dp[i][j - 1], price[j] + prevDiff);
             }
         }
-        
+
         for (int i = 0; i <= k; i++) {
             for (int j = 0; j <= n; j++) {
                 System.out.print(dp[i][j] + " ");

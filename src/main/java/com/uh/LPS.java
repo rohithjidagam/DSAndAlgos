@@ -2,7 +2,7 @@ package com.uh;
 
 public class LPS {
 
-    static String str = "GEEKSFORGEEKS";
+    static String str = "banana";
     static int N = str.length();
 
     public static void main(String[] args) {
@@ -13,52 +13,50 @@ public class LPS {
         int m = lpsDP(str, 0, str.length());
         System.out.println(m);
 
-       // O(n^2) time and O(n^2) space
-        lpSubstring("forgeeksskeegfor");
-        
-        //O(n^2) time and O(1) space
-        lpSubstringWithoutDP("forgeeksskeegfor");
+        // O(n^2) time and O(n^2) space
+        lpSubstring("banana");
+
+        // O(n^2) time and O(1) space
+        lpSubstringWithoutDP("banana");
     }
 
     private static void lpSubstringWithoutDP(String str) {
 
-        int low , high; 
+        int low, high;
         int start = 0;
         int max_length = 1;
         int len = str.length();
-        
+
         for (int i = 0; i < len; i++) {
-            
-            low = i-1;
+
+            low = i - 1;
             high = i;
-            while(low >=0 && high < len && str.charAt(low) == str.charAt(high)){
-                if(max_length < high - low +1){
-                    max_length = high-low+1;
+            while (low >= 0 && high < len && str.charAt(low) == str.charAt(high)) {
+                if (max_length < high - low + 1) {
+                    max_length = high - low + 1;
                     start = low;
                 }
                 --low;
                 ++high;
             }
-            
-            low = i-1;
-            high = i+1;
-            
-            while(low >= 0 && high < len && str.charAt(low) == str.charAt(high)){
-                if(high-low+1 > max_length){
-                    max_length = high-low+1;
+
+            low = i - 1;
+            high = i + 1;
+
+            while (low >= 0 && high < len && str.charAt(low) == str.charAt(high)) {
+                if (high - low + 1 > max_length) {
+                    max_length = high - low + 1;
                     start = low;
                 }
                 --low;
                 ++high;
             }
-            
+
         }
-        
+
         System.out.println(str.substring(start, start + max_length));
         System.out.println(max_length);
-        
-        
-        
+
     }
 
     private static void lpSubstring(String st) {
@@ -110,9 +108,11 @@ public class LPS {
         for (int i = 0; i < n; i++) {
             dp[i][i] = 1;
         }
+
         for (int k = 2; k <= n; k++) {
             for (int i = 0; i < n - k + 1; i++) {
                 int j = i + k - 1;
+
                 if (k == 2 && str.charAt(i) == str.charAt(j)) {
                     dp[i][j] = 2;
                 } else if (str.charAt(i) == str.charAt(j)) {
@@ -123,12 +123,13 @@ public class LPS {
             }
         }
 
-        /*
-         * for (int i = 0; i < n; i++) {
-         * 
-         * for (int j = 0; j < n; j++) { System.out.print(dp[i][j] + " "); }
-         * System.out.println(); }
-         */
+        for (int i = 0; i < n; i++) {
+
+            for (int j = 0; j < n; j++) {
+                System.out.print(dp[i][j] + " ");
+            }
+            System.out.println();
+        }
 
         return dp[0][n - 1];
     }

@@ -2,6 +2,7 @@ package com.uh;
 
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.Stack;
 
 public class BinarySearchTree {
 
@@ -29,11 +30,10 @@ public class BinarySearchTree {
         correctSwapNodes();
 
         System.out.println();
-        
-        //inorder
+
+        // inorder
         bstToDLL(root);
 
-        
         while (head.right != null) {
             System.out.print(head.data + " ");
             head = head.right;
@@ -43,6 +43,30 @@ public class BinarySearchTree {
             System.out.print(head.data + " ");
             head = head.left;
         }
+
+        System.out.println();
+        Integer[] preOrder = { 10, 5, 1, 7, 40, 30, 20, 50 };
+        preOrderToInorder(preOrder);
+    }
+
+    private static void preOrderToInorder(Integer[] preOrder) {
+        Stack<Integer> stack = new Stack<>();
+        stack.push(preOrder[0]);
+
+        for (int i = 1; i < preOrder.length; i++) {
+
+            while (!stack.isEmpty() && stack.peek() < preOrder[i]) {
+                System.out.print(stack.pop() + " ");
+            }
+            stack.push(preOrder[i]);
+
+        }
+
+        while (!stack.isEmpty()) {
+            System.out.print(stack.pop() + " ");
+        }
+        System.out.println();
+
     }
 
     private static void bstToDLL(BSTNode root) {

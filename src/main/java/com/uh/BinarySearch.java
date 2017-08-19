@@ -35,8 +35,7 @@ public class BinarySearch {
                 // TODO Auto-generated method stub
                 return 0;
             }
-            
-            
+
         });
     }
 
@@ -157,17 +156,18 @@ public class BinarySearch {
         if (arr[mid] == k)
             return mid;
 
-        // low to mid is sorted
-        if (arr[i] < arr[mid]) {
+        //low to mid is sorted
+        if (arr[i] <= arr[mid]) {
 
-            if (k > arr[mid] && k < arr[j])
-                return searchSortedAndRotated(arr, mid + 1, j, k);
-            else
+            if (k >= arr[i] && k < arr[mid])
                 return searchSortedAndRotated(arr, i, mid - 1, k);
+            else
+                return searchSortedAndRotated(arr, mid + 1, j, k);
+
         }
 
-        // mid to high is sorted
-        if (k > arr[mid] && k < arr[j])
+        //mid to high is sorted
+        if (k > arr[mid] && k <= arr[j])
             return searchSortedAndRotated(arr, mid + 1, j, k);
         else
             return searchSortedAndRotated(arr, i, mid - 1, k);

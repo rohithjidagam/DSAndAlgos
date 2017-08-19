@@ -350,7 +350,7 @@ public class ParenthesisExamples {
             res.add(Integer.parseInt(s));
 
         map.put(s, res);
-        // System.out.println(map);
+        System.out.println(map);
         return res;
 
     }

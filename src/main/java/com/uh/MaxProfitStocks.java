@@ -45,7 +45,44 @@ public class MaxProfitStocks {
 
         // without skipping 2 consecutive
         minTimeToFinishTaks();
+        
+        paintHouse2();
 
+    }
+
+    private static void paintHouse2() {
+
+        int[][] costs = {};
+        
+        int prevMin = 0;
+        int prevSecMin = 0;
+        int prevColor = -1;
+        
+        for (int i = 0; i < costs.length; i++) {
+            
+            int curMin = Integer.MAX_VALUE;
+            int curSecMin = Integer.MAX_VALUE;
+            int curColor = -1;
+            
+            for (int j = 0; j < costs[0].length; j++) {
+                
+                costs[i][j] = costs[i][j] + prevColor == j ? prevSecMin : prevMin;
+                
+                if(costs[i][j] < curMin){
+                    curSecMin = curMin;
+                    curMin = costs[i][j];
+                    curColor = j;
+                } else if(costs[i][j] < curSecMin){
+                    curSecMin = costs[i][j];
+                }
+                
+                prevMin = curMin;
+                prevSecMin = curSecMin;
+                prevColor = curColor;
+            }
+            
+            System.out.println(prevMin);
+        }
     }
 
     private static void maxProfitWithCoolDown() {
@@ -99,10 +136,9 @@ public class MaxProfitStocks {
 
         for (int i = 1; i < arr.length; i++) {
 
-            int inclNew = arr[i] + excl;
-            int exclNew = incl;
-
-            incl = inclNew;
+            int exclNew = Math.max(incl, excl);
+            
+            incl = arr[i] + excl;
             excl = exclNew;
         }
 

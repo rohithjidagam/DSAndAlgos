@@ -13,6 +13,38 @@ public class LIS {
         int a[] = { 0, 8, 4, 12, 2, 10, 6, 14, 1, 9, 5, 13, 3, 11, 7, 15 };
         int n1 = a.length;
         System.out.println("Length of LBS is " + lbs(a, n1));
+        
+        int bs = lisBinarySearch(arr, n);
+        System.out.println(bs);
+    }
+
+    private static int lisBinarySearch(int[] arr, int n) {
+
+        int[] parent = new int[n];
+        int[] lis = new int[n+1];
+        int len = 0;
+        
+        for (int i = 0; i < n; i++) {
+            
+            int l = 1;
+            int h = len;
+            
+            while(l <= h){
+                int mid = (l+h)/2;
+                
+                if(arr[lis[mid]] < arr[i])
+                    l = mid + 1;
+                else  
+                    h = mid -1;
+            }
+            
+            int pos = l;
+            parent[i] = lis[pos-1];
+            lis[pos] = i;
+            
+            len = Math.max(len, pos);
+        }
+        return len;
     }
 
     private static int lbs(int[] a, int n) {
@@ -67,7 +99,12 @@ public class LIS {
             }
         }
 
-        return lis[n - 1];
+        int max = -1;
+        for (int i = 0; i < lis.length; i++) {
+            max = Math.max(max, lis[i]);
+        }
+        
+        return max;
     }
 
     private static int lis(int[] arr, int n) {

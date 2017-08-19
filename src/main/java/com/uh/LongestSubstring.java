@@ -1,6 +1,7 @@
 package com.uh;
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class LongestSubstring {
 
@@ -13,7 +14,7 @@ public class LongestSubstring {
         int l = longSubLength(str, n);
         System.out.println(l);
 
-        int l2 = longSubStringHashSet(str);
+        int l2 = longSubStringHashMap(str);
         System.out.println(l2);
 
         String text = "ADOBECODEBANC";
@@ -74,33 +75,23 @@ public class LongestSubstring {
         return s.substring(st_ind, st_ind + min);
     }
 
-    private static int longSubStringHashSet(String s) {
-        if (s == null || s.length() == 0)
-            return 0;
-
-        HashSet<Character> set = new HashSet<Character>();
-
+    private static int longSubStringHashMap(String s) {
+        Map<Character, Integer> map = new HashMap<>();
         int max = 0;
+        int len = 0;
 
-        int i = 0;
-        int start = 0;
-        while (i < s.length()) {
-            char c = s.charAt(i);
-            if (!set.contains(c)) {
-                set.add(c);
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+
+            if (!map.containsKey(ch)) {
+                map.put(ch, i);
+                len++;
             } else {
-                max = Math.max(max, set.size());
-                while (start < i && s.charAt(start) != c) {
-                    set.remove(s.charAt(start));
-                    start++;
-                }
-                start++;
+                max = Math.max(max, len);
+                len = Math.min(len + 1, i - map.get(ch));
+                map.put(ch, i);
             }
-
-            i++;
         }
-
-        max = Math.max(max, set.size());
 
         return max;
     }

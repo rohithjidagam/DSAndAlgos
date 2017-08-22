@@ -1,5 +1,7 @@
 package com.uh;
 
+import java.util.Arrays;
+
 public class CoinChange {
 
     public static void main(String[] args) {
@@ -13,41 +15,59 @@ public class CoinChange {
         int countDP = countDP(coins, coins.length, sum);
         System.out.println(countDP);
 
-        
-        int[] coins2 = {7, 3, 2, 6};
+        int countDPTotal = countDPTotal(coins, coins.length, sum);
+        System.out.println(countDPTotal);
+
+        int[] coins2 = { 7, 3, 2, 6 };
         sum = 13;
         int min = minCoins(coins2, coins2.length, sum);
         System.out.println(min);
 
         int minDP = minCoinsDP(coins2, coins2.length, sum);
         System.out.println(minDP);
-        
+
         int minDP2 = minCoinsDP2(coins2, coins2.length, sum);
         System.out.println(minDP2);
     }
 
+    private static int countDPTotal(int[] coins, int n, int sum) {
+        Integer[] dp = new Integer[sum + 1];
+        for (int i = 0; i < dp.length; i++) {
+            dp[i] = 0;
+        }
+        dp[0] = 1;
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i - coins[j] >= 0) {
+                    dp[i] += dp[i - coins[j]];
+                }
+            }
+            System.out.println(Arrays.deepToString(dp));
+        }
+        return dp[sum];
+    }
+
     private static int minCoinsDP2(int[] coins, int n, int sum) {
 
-        int[] dp = new int[sum+1];
-        int[] r = new int[sum+1];
-        
-        
+        int[] dp = new int[sum + 1];
+        int[] r = new int[sum + 1];
+
         for (int i = 1; i < r.length; i++) {
             dp[i] = Integer.MAX_VALUE - 1;
             r[i] = -1;
         }
         dp[0] = 0;
-        
+
         for (int i = 0; i < n; i++) {
             for (int j = coins[i]; j <= sum; j++) {
-                if(dp[j-coins[i]] + 1 < dp[j]){
-                    dp[j] = 1 + dp[j-coins[i]];
+                if (dp[j - coins[i]] + 1 < dp[j]) {
+                    dp[j] = 1 + dp[j - coins[i]];
                     r[j] = i;
                 }
             }
-            
+
         }
-        //printCoins(r, coins);
+        // printCoins(r, coins);
         return dp[sum];
     }
 
@@ -58,7 +78,7 @@ public class CoinChange {
         }
         int start = R.length - 1;
         System.out.print("Coins used to form total ");
-        while ( start != 0 ) {
+        while (start != 0) {
             int j = R[start];
             System.out.print(coins[j] + " ");
             start = start - coins[j];
@@ -121,12 +141,12 @@ public class CoinChange {
                 dp[j] += dp[j - coins[i]];
             }
         }
-        
+
         for (int i = 0; i < dp.length; i++) {
             System.out.print(dp[i] + " ");
         }
         System.out.println();
-        
+
         return dp[sum];
     }
 

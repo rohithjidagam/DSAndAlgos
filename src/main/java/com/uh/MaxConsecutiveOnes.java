@@ -8,13 +8,13 @@ public class MaxConsecutiveOnes {
     public static void main(String[] args) {
 
         // flipping k 0's
-        int[] arr = { 1, 0, 1, 1, 0 };
+        int[] arr = { 1, 0, 0, 1, 1, 0, 1, 0, 1, 1 };
         
         // k = 1
-        int max = maxCons1s(arr, 1);
+        int max = maxCons1s(arr, 2);
         System.out.println(max);
         
-        System.out.println(findMaxConsecutiveOnes(arr, 1));
+        System.out.println(findMaxConsecutiveOnes(arr, 2));
     }
 
     private static int maxCons1s(int[] arr, int k) {
@@ -22,6 +22,7 @@ public class MaxConsecutiveOnes {
         for (int i = 0, j = 0; j < arr.length; j++) {
             if (arr[j] == 0)
                 zero++;
+            
             while (zero > k) {
                 if (arr[i++] == 0)
                     zero--;

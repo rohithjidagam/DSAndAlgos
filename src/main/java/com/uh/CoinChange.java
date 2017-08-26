@@ -140,6 +140,7 @@ public class CoinChange {
             for (int j = coins[i]; j <= sum; j++) {
                 dp[j] += dp[j - coins[i]];
             }
+            
         }
 
         for (int i = 0; i < dp.length; i++) {

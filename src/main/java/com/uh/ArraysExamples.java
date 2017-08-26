@@ -19,7 +19,7 @@ public class ArraysExamples {
 
         // sumInRanges();
 
-        // missingSmallestPositive();
+        missingSmallestPositive();
 
         // trappingRainWater();
 
@@ -430,7 +430,7 @@ public class ArraysExamples {
 
     private static void missingSmallestPositive() {
 
-        Integer[] arr = { 1, 2, 3, 7, 6, 8, -1, -10, 15 };
+        Integer[] arr = { 2,1 };
 
         int n = arr.length;
 
@@ -452,16 +452,16 @@ public class ArraysExamples {
             }
         }
 
-        System.out.println(Arrays.deepToString(arr));
-        System.out.println(i + " " + j);
+        //System.out.println(Arrays.deepToString(arr));
+        //System.out.println(i + " " + j);
 
         Integer[] a = Arrays.copyOfRange(arr, 0, j);
-        System.out.println(Arrays.deepToString(a));
+        //System.out.println(Arrays.deepToString(a));
 
         for (int k = 0; k < a.length; k++) {
-            if (Math.abs(a[k]) - 1 < a.length && a[Math.abs(a[k]) - 1] >= 0)
-                a[Math.abs(a[k]) - 1] = -a[Math.abs(a[k]) - 1];
-            System.out.println(Arrays.deepToString(a));
+            int val = Math.abs(a[k]) - 1;
+            if (val < a.length && a[val] >= 0)
+                a[val] = -a[val];
         }
 
         for (int k = 0; k < a.length; k++) {

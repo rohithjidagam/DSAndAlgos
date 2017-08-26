@@ -18,6 +18,37 @@ public class StringExamples2 {
         System.out.println(diff);
 
         reverseString("   a  b  c def ggg  ,, hi");
+
+        String resF = addFractions("1/3-1/2");
+        System.out.println(resF);
+    }
+
+    private static String addFractions(String s) {
+
+        String[] split = s.split("/|(?=[-+])");
+        int i = 0;
+        int A = 0;
+        int B = 1;
+        for (; i < split.length - 1; i += 2) {
+            int a = Integer.parseInt(split[i]);
+            int b = Integer.parseInt(split[i + 1]);
+            
+            A = A * b + a * B;
+            B = B * b;
+
+            int g = gcd(A, B);
+
+            A = A / g;
+            B = B / g;
+        }
+        return A + "/" + B;
+    }
+
+    private static int gcd(int a, int b) {
+
+        if (a == 0 || b == 0)
+            return a + b;
+        return gcd(b, a % b);
     }
 
     private static void reverseString(String s) {
@@ -243,7 +274,8 @@ public class StringExamples2 {
         String s = Integer.toBinaryString(x);
         System.out.println(s);
         int i = 0, j = s.length() - 1;
-        while (i < j && s.charAt(i++) == s.charAt(j--));
+        while (i < j && s.charAt(i++) == s.charAt(j--))
+            ;
         if (i >= j) {
             output = 1;
             System.out.println(output);

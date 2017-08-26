@@ -1,5 +1,6 @@
 package com.uh;
 
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
@@ -65,33 +66,29 @@ public class MinMaxSubArray {
 
     }
 
-    private static void usingDQueue(int k, int[] arr) {
+    private static void usingDQueue(int k, int[] nums) {
 
         Deque<Integer> dq = new LinkedList<>();
-
-        int i;
-        for (i = 0; i < k; i++) {
-
-            while (!dq.isEmpty() && arr[i] >= arr[dq.peekLast()])
-                dq.removeLast();
-
-            dq.addLast(i);
-        }
-
-        for (; i < arr.length; i++) {
-
-            System.out.println(arr[dq.peekFirst()]);
-
-            while (!dq.isEmpty() && dq.peekFirst() <= i - k)
+        int n = nums.length;
+        Integer[] res = new Integer[n - k + 1];
+        int j = 0;
+        for (int i = 0; i < n; i++) {
+            
+            while(!dq.isEmpty() && dq.peekFirst() < i - k + 1)
                 dq.pollFirst();
-
-            while (!dq.isEmpty() && arr[i] >= arr[dq.peekLast()])
-                dq.removeLast();
-
-            dq.addLast(i);
-
+            
+            while(!dq.isEmpty() && nums[dq.peekLast()] < nums[i])
+                dq.pollLast();
+            
+            dq.offer(i);
+            
+            if(i+1 >= k){
+                res[j++] = nums[dq.peekFirst()];
+            }
+            
         }
-        System.out.println(arr[dq.peekFirst()]);
+        
+       System.out.println(Arrays.deepToString(res));
 
     }
 
@@ -102,12 +99,13 @@ public class MinMaxSubArray {
         for (i = 0; i < k; i++) {
             max.add(new IntegersMax(arr[i]));
         }
-        System.out.println(max.peek());
+        System.out.print(max.peek() + " ");
         for (; i < arr.length; i++) {
             max.remove(i - k);
             max.add(new IntegersMax(arr[i]));
-            System.out.println(max.peek());
+            System.out.print(max.peek() + " ");
         }
+        System.out.println();
     }
 
 }

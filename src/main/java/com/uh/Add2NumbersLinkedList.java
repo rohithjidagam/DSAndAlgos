@@ -60,10 +60,24 @@ public class Add2NumbersLinkedList {
         LinkedNode res = null;
 
         if (c1 == c2) {
-
             res = addEqual(l1, l2, carry);
         } else {
-
+            if(c1 < c2){
+                LinkedNode temp = l1;
+                l1 = l2;
+                l2 = temp;
+            }
+            
+            int diff = Math.abs(c1-c2);
+            
+            LinkedNode temp = l1;
+            LinkedNode cur = null;
+            while(diff-- > 0){
+                cur = temp;
+                temp = temp.next;
+            }
+            
+            addEqual(cur, l2, carry);
         }
         
         while (res != null) {

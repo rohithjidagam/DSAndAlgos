@@ -20,6 +20,48 @@ public class StringDecodings {
         String s2 = "1*";
         long d2 = decode2(s2, s2.length());
         System.out.println(d2);
+
+        long d23 = decode3(s2, s2.length());
+        System.out.println(d23);
+    }
+
+    private static long decode3(String s, int n) {
+        int mod = 1000000007;
+
+        long f1 = 1;
+        long f2 = helper(s.substring(0, 1));
+        
+        for (int i = 1; i < n; i++) {
+            long f3 = f2 * helper(s.substring(i, 2)) + f1 * helper(s.substring(i-1, 2));
+            f1 = f2;
+            f2 = f3%mod;
+        }
+        return f2;
+    }
+
+    private static long helper(String s) {
+        if (s.length() == 1) {
+            if (s.charAt(0) == '*')
+                return 9;
+            return s.charAt(0) == '0' ? 0 : 1;
+        }
+
+        else if (s.equals("**")) {
+            return 15;
+        } else if (s.charAt(1) == '*') {
+            if (s.charAt(0) == '1')
+                return 9;
+            return s.charAt(0) == '2' ? 6 : 0;
+        } else if (s.charAt(0) == '*') {
+            return s.charAt(1) <= '6' ? 2 : 1;
+        } else {
+            int n = Integer.parseInt(s);
+            if (n >= 10 && n <= 26)
+                return 1;
+            else
+                return 0;
+        }
+
     }
 
     private static long decode2(String s, int n) {

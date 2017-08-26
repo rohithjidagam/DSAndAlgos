@@ -29,20 +29,59 @@ public class Subsets {
         boolean bD = subsets.subSetSumDP(set3, set3.length, 5);
         System.out.println(bD);
 
+        boolean bD1 = subsets.subSetSumDP1(set3, set3.length, 5);
+        System.out.println(bD1);
+
         subsets.bitSetSum(set3, set3.length);
     }
 
     private void bitSetSum(int[] s, int n) {
-        
+
         BitSet b = new BitSet();
         b.set(0);
-        
+
         for (int i = 0; i < n; i++) {
-            
+
         }
-        
+
         System.out.println(b);
 
+    }
+
+    private boolean subSetSumDP1(int[] s, int n, int sum) {
+
+        // The value of subset[i][j] will be true if there
+        // is a subset of set[0..j-1] with sum equal to i
+        boolean[][] dp = new boolean[n + 1][sum + 1];
+
+        // If sum is 0, then answer is true
+        for (int i = 0; i <= n; i++) {
+            dp[i][0] = true;
+        }
+
+        // If sum is not 0 and set is empty, then answer is false
+        for (int i = 1; i <= sum; i++) {
+            dp[0][i] = false;
+        }
+
+        // Fill the subset table in botton up manner
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= sum; j++) {
+                dp[i][j] = dp[i - 1][j];
+                if (j >= s[i - 1]) {
+                    dp[i][j] = dp[i][j] || dp[i - 1][j - s[i - 1]];
+                }
+            }
+        }
+
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= sum; j++) {
+                System.out.print(dp[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        return dp[n][sum];
     }
 
     private boolean subSetSumDP(int[] s, int n, int sum) {

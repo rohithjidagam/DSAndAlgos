@@ -165,29 +165,31 @@ public class PatternMatchingDP {
      */
     private static boolean matchDP(String s, String p) {
 
-        int m = s.length();
-        int n = p.length();
-        boolean[][] dp = new boolean[m + 1][n + 1];
+        char[] text = s.toCharArray();
+        char[] pattern = p.toCharArray();
+        int m = text.length;
+        int n = pattern.length;
+        boolean dp[][] = new boolean[m + 1][n + 1];
+
         dp[0][0] = true;
-        for (int i = 0; i < n; i++) {
-            if (p.charAt(i) == '*' && dp[0][i - 1]) {
-                dp[0][i + 1] = true;
+        //Deals with patterns like a* or a*b* or a*b*c*
+        for (int i = 1; i < dp[0].length; i++) {
+            if (pattern[i-1] == '*') {
+                dp[0][i] = dp[0][i - 2];
             }
         }
-        for (int i = 1; i <= m; i++) {
-            for (int j = 1; j <= n; j++) {
-                if (p.charAt(j - 1) == '.') {
-                    dp[i][j] = dp[i - 1][j - 1];
-                }
-                if (p.charAt(j - 1) == s.charAt(i - 1)) {
-                    dp[i][j] = dp[i - 1][j - 1];
-                }
-                if (p.charAt(j - 1) == '*') {
-                    if (p.charAt(j - 2) != s.charAt(i - 1) && p.charAt(j - 2) != '.') {
-                        dp[i][j] = dp[i][j - 2];
-                    } else {
-                        dp[i][j] = (dp[i][j - 1] || dp[i][j - 2] || dp[i - 1][j]);
+
+        for (int i = 1; i < dp.length; i++) {
+            for (int j = 1; j < dp[0].length; j++) {
+                if (pattern[j - 1] == '.' || pattern[j - 1] == text[i - 1]) {
+                    dp[i][j] = dp[i-1][j-1];
+                } else if (pattern[j - 1] == '*')  {
+                    dp[i][j] = dp[i][j - 2];
+                    if (pattern[j-2] == '.' || pattern[j - 2] == text[i - 1]) {
+                        dp[i][j] = dp[i][j] | dp[i - 1][j];
                     }
+                } else {
+                    dp[i][j] = false;
                 }
             }
         }

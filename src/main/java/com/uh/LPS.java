@@ -12,13 +12,14 @@ public class LPS {
 
         int m = lpsDP(str, 0, str.length());
         System.out.println(m);
-
+        
         // O(n^2) time and O(n^2) space
         lpSubstring("banana");
 
         // O(n^2) time and O(1) space
         lpSubstringWithoutDP("banana");
     }
+
 
     private static void lpSubstringWithoutDP(String str) {
 

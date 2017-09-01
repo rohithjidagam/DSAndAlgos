@@ -45,7 +45,40 @@ public class AlienLanguage {
     }
 
         graph.topSort();
+        
+        String topSortAlt = graph.topSortAlt();
+        System.out.println(topSortAlt);
 
+    }
+
+    private String topSortAlt() {
+
+        int[] vis = new int[V];
+        StringBuilder sb = new StringBuilder();
+        
+        for (int i = 0; i < vis.length; i++) {
+            if(vis[i] == 0){
+                if(!dfsAlt(i, vis, sb))
+                    return "";
+            }
+        }
+        return sb.reverse().toString();
+    }
+
+    private boolean dfsAlt(int i, int[] vis, StringBuilder sb) {
+
+        vis[i] = 1; //visiting
+        ListIterator<Integer> listIterator = adj[i].listIterator();
+        while(listIterator.hasNext()){
+            int j = listIterator.next();
+            if(vis[j] == 1) //loop,cycle
+                return false;
+            if(vis[j] == 0 && !dfsAlt(j, vis, sb)) //unvisited
+                return false;
+        }
+        vis[i] = 2; //visited
+        sb.append((char) (i + 'a'));
+        return true;
     }
 
     private void topSort() {

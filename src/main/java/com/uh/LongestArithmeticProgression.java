@@ -67,9 +67,9 @@ public class LongestArithmeticProgression {
                 if (arr[j] + arr[k] == 2 * arr[i])
                     return true;
                 else if (arr[j] + arr[k] < 2 * arr[i])
-                    j--;
-                else
                     k++;
+                else
+                    j--;
             }
         }
         return false;

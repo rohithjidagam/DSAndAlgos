@@ -15,6 +15,35 @@ public class MinStepsArrayEnd {
 
         int steps = getMinSteps(arr, n);
         System.out.println(steps);
+        
+        int[] sum = {1, 3, 5, 8, 9, 2, 6, 7, 6, 8, 9};
+        //O(n) solution
+        int min = minStepsLinear(sum, sum.length);
+        System.out.println(min);
+    }
+
+    private static int minStepsLinear(int[] arr, int n) {
+
+        int maxReach = arr[0];
+        int step = arr[0];
+        int jump = 1;
+        
+        for (int i = 1; i < n; i++) {
+            
+            if(i == n-1)
+                return jump;
+            
+            maxReach = Math.max(maxReach, i+arr[i]);
+            step--;
+            
+            if(step == 0){
+                jump++;
+                if(i >= maxReach)
+                    return -1;
+                step = maxReach - i;
+            }
+        }
+        return -1;
     }
 
     private static int getMinSteps(int[] arr, int n) {

@@ -50,8 +50,71 @@ public class ArraysExamples {
         
         System.out.println(excelColumnNumber("AKY"));
 
+        //handles all negative numbers (kadanes variation)
+        int max_sum = maxSumSubArray();
+        System.out.println(max_sum);
+        
+        //handles all negative numbers (kadanes variation)
+        int max_sum_k = maxSumSubArrayWithAtLeastKNums();
+        System.out.println(max_sum_k);
     }
     
+    private static int maxSumSubArrayWithAtLeastKNums() {
+        Integer[] arr = {-2, -1, -3, -4, -1};
+        int k = 2;
+        int n = arr.length;
+        
+        Integer[] maxSum = new Integer[n];
+        maxSum[0] = arr[0];
+        
+        int cur = arr[0];
+        for(int i=1;i<n;i++){
+            cur += arr[i];
+            maxSum[i] = Math.max(cur, arr[i]);
+        }
+        
+        int sum = 0;
+        int i=0;
+        for(;i<k;i++)
+            sum+=arr[i];
+        
+        int res = sum;
+        for(;i<n;i++){
+            sum  = sum + arr[i] - arr[i-k];
+            
+            res = Math.max(res, sum);
+            res = Math.max(res, sum + maxSum[i-k]);
+        }
+        
+        return res;
+    }
+
+    private static int maxSumSubArray() {
+
+        int[] arr = {-2, -1, -3, -4, -1};
+        
+        int cur_sum = arr[0];
+        int max = arr[0];
+        int s = 0, e = 0, st = 0;
+        
+        for (int i = 1; i < arr.length; i++) {
+            
+            cur_sum += arr[i];
+            
+            if(cur_sum < arr[i]){
+                cur_sum = arr[i];
+                s = i;
+            }
+            
+            if(cur_sum > max){
+                max = cur_sum;
+                st = s;
+                e = i;
+            }
+        }
+        return max;
+    }
+
     private static int excelColumnNumber(String s) {
         int num = 0;
         for (int i = 0; i < s.length(); i++) {

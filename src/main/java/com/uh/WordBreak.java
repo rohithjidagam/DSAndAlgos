@@ -3,13 +3,11 @@ package com.uh;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 public class WordBreak {
 
-    static final String[] dict = { "mobile", "samsung", "sam", "sung", "man", "mango", "icecream", "and", "go", "i",
-            "like", "ice", "cream" };
+    static final String[] dict = { "mobile", "samsung", "sam", "sung", "man", "mango", "and", "go" };
 
     public static void main(String[] args) {
 
@@ -40,7 +38,6 @@ public class WordBreak {
 
         for (int i = 0; i < dict.length; i++) {
             if (s.startsWith(dict[i])) {
-
                 List<String> subs = printHashMap(s.substring(dict[i].length()), map);
                 for (String sub : subs) {
                     res.add(dict[i] + (sub.isEmpty() ? "" : " ") + sub);
@@ -49,6 +46,7 @@ public class WordBreak {
         }
 
         map.put(s, res);
+        System.out.println(map);
         return res;
 
     }

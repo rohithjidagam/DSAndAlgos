@@ -1,5 +1,8 @@
 package com.uh;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class PatternMatchingDP {
 
     /*
@@ -30,11 +33,9 @@ public class PatternMatchingDP {
 
         boolean matchR = matchRecur(pattern, str);
         System.out.println(matchR);
-        
+
         boolean matchL = matchLinear(pattern, str);
         System.out.println(matchL);
-        
-        
 
         // '.' Matches any single character.
         // '*' Matches zero or more of the preceding element.
@@ -48,47 +49,96 @@ public class PatternMatchingDP {
 
         boolean m2 = matchDP(str2, pat2);
         System.out.println(m2);
+
+        boolean val = matchBackTracking("GeeksForGeeks", "GFG");
+        System.out.println(val);
+    }
+
+    private static boolean matchBackTracking(String str, String pat) {
+
+        Map<Character, String> map = new HashMap<>();
+
+        boolean flag = matchUtil(str, 0, str.length(), pat, 0, pat.length(), map);
+        System.out.println(map);
+
+        return flag;
+    }
+
+    private static boolean matchUtil(String str, int i, int n, String pat, int j, int m, Map<Character, String> map) {
+
+        if (i == n && j == m)
+            return true;
+
+        if (i == n || j == m)
+            return true;
+
+        char ch = pat.charAt(j);
+        if (map.containsKey(ch)) {
+
+            String s = map.get(ch);
+            int len = s.length();
+            String sub = str.substring(i, i+len);
+
+            System.out.println(sub + "--" + s);
+            if (!sub.equals(s))
+                return false;
+
+            return matchUtil(str, i + len, n, pat, j + 1, m, map);
+        }
+
+        for (int k = 1; k <= n - i; k++) {
+
+            map.put(ch, str.substring(i, i+k));
+
+            if (matchUtil(str, k + i, n, pat, j + 1, m, map))
+                return true;
+
+            map.remove(ch);
+        }
+
+        return false;
     }
 
     private static boolean matchLinear(String p, String s) {
 
         int m = s.length();
         int n = p.length();
-        
-        int i = 0; //string
-        int j= 0; //pattern
+
+        int i = 0; // string
+        int j = 0; // pattern
         int match = 0;
         int start = -1;
-        
-        while(i < m){
+
+        while (i < m) {
             // advancing both pointers
-            if( j <n && p.charAt(j) == '?' || p.charAt(j) == s.charAt(i)){
+            if (j < n && p.charAt(j) == '?' || p.charAt(j) == s.charAt(i)) {
                 i++;
                 j++;
-                
-            }// * found, only advancing pattern pointer 
-            else if(j < n && p.charAt(j) == '*'){
+
+            } // * found, only advancing pattern pointer
+            else if (j < n && p.charAt(j) == '*') {
                 start = j;
                 match = i;
                 j++;
-            } //last pattern pointer was *, advancing string pointer
-            else if(start != -1){
+            } // last pattern pointer was *, advancing string pointer
+            else if (start != -1) {
                 j = start + 1;
                 match++;
                 i = match;
-            } else{
-                //current pattern pointer is not star, last patter pointer was not *
-                //characters do not match
+            } else {
+                // current pattern pointer is not star, last patter pointer was
+                // not *
+                // characters do not match
                 return false;
             }
         }
-        
-      //check for remaining characters in pattern
-        while(j < n && p.charAt(j) == '*')
+
+        // check for remaining characters in pattern
+        while (j < n && p.charAt(j) == '*')
             j++;
-        
+
         return j == n;
-        
+
     }
 
     private static boolean isMatch(String s, String p) {
@@ -151,17 +201,15 @@ public class PatternMatchingDP {
         }
     }
 
-    
     /*
-     * 1, If p.charAt(j) == s.charAt(i) :  dp[i][j] = dp[i-1][j-1];
-       2, If p.charAt(j) == '.' : dp[i][j] = dp[i-1][j-1];
-       3, If p.charAt(j) == '*': 
-             here are two sub conditions:
-               1   if p.charAt(j-1) != s.charAt(i) : dp[i][j] = dp[i][j-2]  //in this case, a* only counts as empty
-               2   if p.charAt(i-1) == s.charAt(i) or p.charAt(i-1) == '.':
-                              dp[i][j] = dp[i-1][j]    //in this case, a* counts as multiple a 
-                           or dp[i][j] = dp[i][j-1]   // in this case, a* counts as single a
-                           or dp[i][j] = dp[i][j-2]   // in this case, a* counts as empty
+     * 1, If p.charAt(j) == s.charAt(i) : dp[i][j] = dp[i-1][j-1]; 2, If
+     * p.charAt(j) == '.' : dp[i][j] = dp[i-1][j-1]; 3, If p.charAt(j) == '*':
+     * here are two sub conditions: 1 if p.charAt(j-1) != s.charAt(i) : dp[i][j]
+     * = dp[i][j-2] //in this case, a* only counts as empty 2 if p.charAt(i-1)
+     * == s.charAt(i) or p.charAt(i-1) == '.': dp[i][j] = dp[i-1][j] //in this
+     * case, a* counts as multiple a or dp[i][j] = dp[i][j-1] // in this case,
+     * a* counts as single a or dp[i][j] = dp[i][j-2] // in this case, a* counts
+     * as empty
      */
     private static boolean matchDP(String s, String p) {
 
@@ -172,9 +220,9 @@ public class PatternMatchingDP {
         boolean dp[][] = new boolean[m + 1][n + 1];
 
         dp[0][0] = true;
-        //Deals with patterns like a* or a*b* or a*b*c*
+        // Deals with patterns like a* or a*b* or a*b*c*
         for (int i = 1; i < dp[0].length; i++) {
-            if (pattern[i-1] == '*') {
+            if (pattern[i - 1] == '*') {
                 dp[0][i] = dp[0][i - 2];
             }
         }
@@ -182,10 +230,10 @@ public class PatternMatchingDP {
         for (int i = 1; i < dp.length; i++) {
             for (int j = 1; j < dp[0].length; j++) {
                 if (pattern[j - 1] == '.' || pattern[j - 1] == text[i - 1]) {
-                    dp[i][j] = dp[i-1][j-1];
-                } else if (pattern[j - 1] == '*')  {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else if (pattern[j - 1] == '*') {
                     dp[i][j] = dp[i][j - 2];
-                    if (pattern[j-2] == '.' || pattern[j - 2] == text[i - 1]) {
+                    if (pattern[j - 2] == '.' || pattern[j - 2] == text[i - 1]) {
                         dp[i][j] = dp[i][j] | dp[i - 1][j];
                     }
                 } else {

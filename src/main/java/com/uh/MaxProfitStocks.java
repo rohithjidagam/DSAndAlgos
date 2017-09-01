@@ -123,7 +123,7 @@ public class MaxProfitStocks {
             excl = exclNew;
         }
 
-        System.out.println(excl);
+        System.out.println("Min time:" + Math.min(incl, excl));
 
     }
 

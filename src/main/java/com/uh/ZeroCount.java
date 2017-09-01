@@ -4,35 +4,21 @@ public class ZeroCount {
 
     public static void main(String[] args) {
 
-        int arr[] = { 1, 0, 0, 1, 1, 0, 1, 0, 1, 1 };
-        int m = 2;
+        int nums[] = { 1, 0, 0, 1, 1, 0, 1, 0, 1, 1 };
+        int k = 2;
 
-        int n = arr.length;
-        int wl = 0;
-        int wr = 0;
-        int zc = 0, bw = 0, bl = 0;
+        int max = 0, zero = 0;
 
-        while (wr < n) {
-            if (zc <= m) {
-                if (arr[wr] == 0)
-                    zc++;
-                wr++;
+        for (int i = 0, j = 0; j < nums.length; j++) {
+            if (nums[j] == 0)
+                zero++;
+            while (zero > k) {
+                if (nums[i++] == 0)
+                    zero--;
             }
-            if (zc > m) {
-                if (arr[wl] == 0)
-                    zc--;
-                wl++;
-            }
-            if (wr - wl > bw) {
-                bw = wr - wl;
-                bl = wl;
-            }
+            max = Math.max(max, j - i + 1);
         }
-
-        for (int i = 0; i < n - 1; i++) {
-            if(bl+i<n && arr[bl+i] == 0)
-            System.out.println(bl + i);
-        }
+        System.out.println(max);
     }
 
 }

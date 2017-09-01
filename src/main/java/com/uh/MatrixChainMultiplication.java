@@ -4,7 +4,7 @@ public class MatrixChainMultiplication {
 
     public static void main(String[] args) {
 
-        int[] arr = { 1, 2, 3, 4 };
+        int[] arr = { 1, 2, 3, 4, 3 };
         int min = matrixChain(arr, 1, arr.length - 1);
         System.out.println(min);
 
@@ -36,6 +36,13 @@ public class MatrixChainMultiplication {
                         dp[i][j] = q;
                 }
             }
+        }
+        
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < dp.length; j++) {
+                System.out.print(dp[i][j] + " ");
+            }
+            System.out.println();
         }
         return dp[1][n-1];
     }

@@ -50,7 +50,39 @@ public class HashExamples {
          */
         int[] arr6 = {23, 2, 6, 4, 7};
         System.out.println(checkSubarraySum(arr6, 6));
+        
+        int[] arr7 = {5, 4, 5, 0 , 1, 2, 3};
+        subArrayWithMaxSumNotConsecutive(arr7, arr7.length);
 
+    }
+
+    private static void subArrayWithMaxSumNotConsecutive(int[] arr, int n) {
+
+        int incl = arr[0];
+        int excl = 0;
+        
+        Map<Integer, List<Integer>> map = new HashMap<>();
+        
+        List<Integer> list = null;
+        for (int i = 1; i < n; i++) {
+            
+            int exclNew = Math.max(incl, excl);
+            
+            incl = arr[i] + excl;
+            excl = exclNew;
+            
+            if(map.get(excl) == null){
+                list = new ArrayList<>();
+            } else {
+                list = map.get(excl);
+            }
+            list.add(i);
+            
+            map.put(incl, list);
+        }
+        
+        System.out.println(Math.max(incl, excl));
+        System.out.println(map);
     }
 
     private static void maxDiffBetOccurences(int[] arr, int n) {

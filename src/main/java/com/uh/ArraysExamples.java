@@ -57,8 +57,27 @@ public class ArraysExamples {
         //handles all negative numbers (kadanes variation)
         int max_sum_k = maxSumSubArrayWithAtLeastKNums();
         System.out.println(max_sum_k);
+        
+        double pow = power(2, -4);
+        System.out.println(pow);
     }
     
+    private static double power(double x, int n) {
+
+        if(n == 0)
+            return 1;
+        double temp = power(x, n/2);
+        if(n%2 == 0){
+            return temp * temp;
+        }
+        else{
+            if(n>0)
+                return temp * temp * x;
+            else
+                return temp * temp / x;
+        }
+    }
+
     private static int maxSumSubArrayWithAtLeastKNums() {
         Integer[] arr = {-2, -1, -3, -4, -1};
         int k = 2;

@@ -107,9 +107,7 @@ public class StringExamples {
             } else {
 
                 res += s.charAt(i - 1);
-                if (j > 1) {
-                    res += j;
-                }
+                res += j;
                 j = 1;
             }
             if (i == s.length() - 1) {
@@ -448,6 +446,8 @@ public class StringExamples {
             if (s.charAt(i) != s.charAt(j)) {
                 return false;
             }
+            i++;
+            j--;
 
         }
 

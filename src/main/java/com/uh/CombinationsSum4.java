@@ -10,10 +10,11 @@ public class CombinationsSum4 {
         int[] arr = { 1, 2, 3 };
         int sum = 4;
 
+        long currentTimeMillis = System.currentTimeMillis();
         Map<Integer, Integer> map = new HashMap<>();
         int n = comboSum(arr, sum, map);
         System.out.println(n);
-
+        System.out.println("Time :" + (System.currentTimeMillis() - currentTimeMillis));
         int n2 = comboSumDP(arr, sum);
         System.out.println(n2);
     }

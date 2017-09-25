@@ -288,6 +288,7 @@ public class ParenthesisExamples {
 
     private static int longestValid(String s) {
 
+        //()(()))))
         Stack<Integer> stack = new Stack<>();
         stack.push(-1);
         int max = Integer.MIN_VALUE;

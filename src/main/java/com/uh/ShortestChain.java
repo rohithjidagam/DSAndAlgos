@@ -1,6 +1,7 @@
 package com.uh;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -29,6 +30,47 @@ public class ShortestChain {
         String start = "TOON";
         String end = "PLEA";
 
+        // wordLadder1(dict, start, end);
+
+        dict.clear();
+        dict.add("hot");
+        dict.add("dot");
+        dict.add("dog");
+        dict.add("lot");
+        dict.add("log");
+
+        start = "hit";
+        end = "cog";
+
+        wordLadder2(dict, start, end);
+
+    }
+
+    private static void wordLadder2(List<String> dict, String start, String end) {
+        Queue<Word> q1 = new LinkedList<>();
+        Queue<Word> q2 = new LinkedList<>();
+        q1.add(new Word(1, start));
+        q2.add(new Word(1, end));
+
+        while (!q1.isEmpty() && !q2.isEmpty()) {
+
+            Word w1 = q1.poll();
+            Word w2 = q2.poll();
+            int d1 = w1.dist;
+            int d2 = w2.dist;
+            
+            Iterator<String> it = dict.iterator();
+            while(it.hasNext()){
+                String w = it.next();
+                if(isAdjacent(w1.word, w)){
+                    q1.add(new Word(d1+1, w));
+                }
+            }
+        }
+
+    }
+
+    private static void wordLadder1(List<String> dict, String start, String end) {
         Queue<Word> q = new LinkedList<>();
 
         q.add(new Word(1, start));
@@ -53,15 +95,15 @@ public class ShortestChain {
             }
 
         }
-        
     }
 
     private static boolean isAdjacent(String start, String w) {
-        
+
         int count = 0;
 
-        if(start.length()!=w.length()) return false;
-        
+        if (start.length() != w.length())
+            return false;
+
         for (int i = 0; i < start.length(); i++) {
             if (start.charAt(i) != w.charAt(i))
                 count++;
@@ -74,9 +116,16 @@ public class ShortestChain {
 class Word {
     String word;
     int dist;
+    Word prev;
 
     Word(int l, String s) {
         word = s;
         dist = l;
+    }
+
+    Word(int l, String s, Word p) {
+        word = s;
+        dist = l;
+        prev = p;
     }
 }

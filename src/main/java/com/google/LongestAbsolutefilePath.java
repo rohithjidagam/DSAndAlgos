@@ -20,7 +20,7 @@ public class LongestAbsolutefilePath {
                 hashMap.put(level + 1, hashMap.get(level) + len + 1);
             }
         }
-        
+        System.out.println(hashMap);
         System.out.println(result);
     }
 

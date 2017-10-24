@@ -1,6 +1,5 @@
 package com.salesforce.files;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -113,39 +112,25 @@ public class FileNode {
 		return null;
 	}
 
-	public void printChild(boolean details) {
-		print(details);
-	}
-
-	private void print(boolean flag) {
-		for (FileNode fileNode : this.child) {
-			String end = "";
-			if (!fileNode.isFile) {
-				end = "/";
-			}
-			if (flag) {
-				System.out.println(" " + fileNode.getPermissions() + " " + fileNode.getName() + end);
-			} else {
-				System.out.println(" " + fileNode.getName() + end);
-			}
-		}
-	}
-
-	public void printchildRecursively(File[] files, int index, int level) {
-		if (index == files.length)
+	public void printchildRecursively(List<FileNode> files, int index, int level, boolean flag) {
+		if (index == files.size())
 			return;
 		for (int i = 0; i < level; i++) {
-			System.out.println("\t");
+			System.out.print("\t");
 		}
 
-		if (files[index].isFile()) {
-			System.out.println(files[index].getName());
+		if (files.get(index).isFile()) {
+			if (!flag) {
+				System.out.println(files.get(index).getName());
+			} else {
+				System.out.println(" " + files.get(index).getPermissions() + " " + files.get(index).getName());
+			}
 		} else {
-			System.out.println("[" + files[index].getName() + "]");
-			printchildRecursively(files[index].listFiles(), 0, level + 1);
+			System.out.println("[" + files.get(index).getName() + "]");
+			printchildRecursively(files.get(index).child, 0, level + 1, flag);
 		}
 
-		printchildRecursively(files, ++index, level);
+		printchildRecursively(files, ++index, level, flag);
 	}
 
 }

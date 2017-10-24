@@ -64,11 +64,10 @@ public class FilesDriver {
 	}
 
 	private static void parseLSCommand(String[] split) {
-		System.out.println("here");
 		if (split.length == 1) {
-			curDir.printChild(false);
+			curDir.printchildRecursively(curDir.getChild(), 0, 0, false);
 		} else {
-			curDir.printChild(true);
+			curDir.printchildRecursively(curDir.getChild(), 0, 0, true);
 		}
 	}
 
@@ -82,7 +81,7 @@ public class FilesDriver {
 					permission = command[2];
 				curDir.addChild(new FileNode(command[1], false, true, permission, curDir));
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new FilesException("Error in vi command", e);
 			}
 	}
 
@@ -96,7 +95,7 @@ public class FilesDriver {
 					permission = command[2];
 				curDir.addChild(new FileNode(command[1], false, false, permission, curDir));
 			} catch (Exception e) {
-				e.printStackTrace();
+				throw new FilesException("Error in mkdir command", e);
 			}
 	}
 
@@ -105,23 +104,23 @@ public class FilesDriver {
 			System.out.println("Invalid cd command.");
 		else
 			try {
-
 				switch (command[1]) {
 				case "/":
 					curDir = rootDir;
 					break;
-
 				case "..":
+					if (curDir.getParent() == null) {
+						System.out.println("Reached root directory. Cannot run cd command.");
+						return;
+					}
 					curDir = curDir.getParent();
 					break;
-
 				default:
 					curDir = curDir.getChild(command[1]);
 					break;
 				}
-
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
+				throw new FilesException("Error in cd command", e);
 			}
 	}
 

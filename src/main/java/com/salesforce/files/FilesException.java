@@ -1,5 +1,11 @@
 package com.salesforce.files;
 
+/**
+ * File Node Exception class.
+ * @author Rohith Jidagam
+ * @version 23 Oct 2017
+ *
+ */
 public class FilesException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;

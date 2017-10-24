@@ -2,6 +2,13 @@ package com.salesforce.files;
 
 import java.util.Scanner;
 
+/**
+ * File Node Driver class.
+ * 
+ * @author Rohith Jidagam
+ * @version 23 Oct 2017
+ *
+ */
 public class FilesDriver {
 
 	static FileNode curDir;
@@ -9,13 +16,15 @@ public class FilesDriver {
 	static final String defaultPermissions = "rwxrwxrwx";
 
 	public static void main(String[] args) {
-
 		rootDir = new FileNode("/", true, false, defaultPermissions, null);
 		curDir = rootDir;
-
 		readInput();
 	}
 
+	/**
+	 * method to read input from console.
+	 * 
+	 */
 	private static void readInput() {
 
 		System.out.println("Enter a command:");
@@ -27,6 +36,11 @@ public class FilesDriver {
 		sc.close();
 	}
 
+	/**
+	 * method to parse input read from console.
+	 * 
+	 * @param command
+	 */
 	private static void parse(String command) {
 
 		String[] split = command.split(" ");
@@ -47,11 +61,17 @@ public class FilesDriver {
 			cdCommand(split);
 			break;
 		default:
+			System.out.println("Invalid Entry.");
 			break;
 		}
 
 	}
 
+	/**
+	 * method to print current directory path from root.
+	 * 
+	 * @param split
+	 */
 	private static void pwdCommand(String[] split) {
 		FileNode temp = curDir.getParent();
 		String path = curDir.getName();
@@ -62,6 +82,11 @@ public class FilesDriver {
 		System.out.println(path);
 	}
 
+	/**
+	 * method to view contents of directory.
+	 * 
+	 * @param split
+	 */
 	private static void lsCommand(String[] split) {
 		if (split.length == 1) {
 			curDir.printchildRecursively(curDir.getChild(), 0, 0, false);
@@ -70,6 +95,11 @@ public class FilesDriver {
 		}
 	}
 
+	/**
+	 * method to create a file.
+	 * 
+	 * @param command
+	 */
 	private static void viCommand(String[] command) {
 		if (command.length == 1)
 			System.out.println("Invalid vi command. Enter filename.");
@@ -84,6 +114,11 @@ public class FilesDriver {
 			}
 	}
 
+	/**
+	 * method to create a directory.
+	 * 
+	 * @param command
+	 */
 	private static void mkdirCommand(String[] command) {
 		if (command.length == 1)
 			System.out.println("Invalid mkdir command. Enter directory name.");
@@ -98,6 +133,11 @@ public class FilesDriver {
 			}
 	}
 
+	/**
+	 * method to change directory.
+	 * 
+	 * @param command
+	 */
 	private static void cdCommand(String[] command) {
 		if (command.length == 1)
 			System.out.println("Invalid cd command.");

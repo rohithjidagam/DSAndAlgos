@@ -3,6 +3,12 @@ package com.salesforce.files;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * File Node class.
+ * @author Rohith Jidagam
+ * @version 23 Oct 2017
+ *
+ */
 public class FileNode {
 
 	private FileNode parent;
@@ -76,6 +82,9 @@ public class FileNode {
 		this.permissions = permissions;
 	}
 
+	/**
+	 * metho to set root node.
+	 */
 	public void setRoot() {
 		if (this.isFile) {
 			throw new FilesException("A Single file cannot be root directory.");
@@ -84,6 +93,9 @@ public class FileNode {
 		this.parent = null;
 	}
 
+	/**
+	 * method to set file type.
+	 */
 	public void setFileType() {
 		if (this.child != null) {
 			throw new FilesException("A Directory cannot be a file.");
@@ -91,6 +103,11 @@ public class FileNode {
 		this.isFile = true;
 	}
 
+	/**
+	 * method to add child to root directory.
+	 * 
+	 * @param child
+	 */
 	public void addChild(FileNode child) {
 		if (this.isFile) {
 			throw new FilesException("A file cannot be added to a file.");
@@ -98,6 +115,12 @@ public class FileNode {
 		this.child.add(child);
 	}
 
+	/**
+	 * method to get FileNode.
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public FileNode getChild(String name) {
 		if (this.child.isEmpty()) {
 			throw new FilesException("The current entity is empty directory or a file.");
@@ -112,6 +135,14 @@ public class FileNode {
 		return null;
 	}
 
+	/**
+	 * method to print child recursively.
+	 * 
+	 * @param files
+	 * @param index
+	 * @param level
+	 * @param flag
+	 */
 	public void printchildRecursively(List<FileNode> files, int index, int level, boolean flag) {
 		if (index == files.size())
 			return;
@@ -120,17 +151,28 @@ public class FileNode {
 		}
 
 		if (files.get(index).isFile()) {
-			if (!flag) {
-				System.out.println(files.get(index).getName());
-			} else {
-				System.out.println(" " + files.get(index).getPermissions() + " " + files.get(index).getName());
-			}
+			print(files, index, flag);
 		} else {
-			System.out.println("[" + files.get(index).getName() + "]");
+			print(files, index, flag);
 			printchildRecursively(files.get(index).child, 0, level + 1, flag);
 		}
 
 		printchildRecursively(files, ++index, level, flag);
+	}
+
+	/**
+	 * method to print to console.
+	 * 
+	 * @param files
+	 * @param index
+	 * @param flag
+	 */
+	private void print(List<FileNode> files, int index, boolean flag) {
+		if (!flag) {
+			System.out.println(files.get(index).getName());
+		} else {
+			System.out.println(" " + files.get(index).getPermissions() + " " + files.get(index).getName());
+		}
 	}
 
 }

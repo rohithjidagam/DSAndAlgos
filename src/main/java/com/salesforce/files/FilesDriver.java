@@ -32,7 +32,7 @@ public class FilesDriver {
 		String[] split = command.split(" ");
 		switch (split[0]) {
 		case "ls":
-			parseLSCommand(split);
+			lsCommand(split);
 			break;
 		case "vi":
 			viCommand(split);
@@ -41,29 +41,28 @@ public class FilesDriver {
 			mkdirCommand(split);
 			break;
 		case "pwd":
-			parsePwdCommand(split);
+			pwdCommand(split);
 			break;
 		case "cd":
 			cdCommand(split);
 			break;
-
 		default:
 			break;
 		}
 
 	}
 
-	private static void parsePwdCommand(String[] split) {
+	private static void pwdCommand(String[] split) {
 		FileNode temp = curDir.getParent();
 		String path = curDir.getName();
 		while (temp != null) {
-			path = temp.getName() + "'/'" + path;
+			path = temp.getName() + "/" + path;
 			temp = temp.getParent();
 		}
 		System.out.println(path);
 	}
 
-	private static void parseLSCommand(String[] split) {
+	private static void lsCommand(String[] split) {
 		if (split.length == 1) {
 			curDir.printchildRecursively(curDir.getChild(), 0, 0, false);
 		} else {

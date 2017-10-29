@@ -36,9 +36,8 @@ public class SerializeNAryTree {
 
         Stack<BNode> stack = new Stack<>();
 
-        // Forloop check carefully.
-        for (int i = 0, j = i; i < s.length(); i++, j = i) {
-
+        for (int i = 0; i < s.length(); i++) {
+            int j = i;
             char c = s.charAt(i);
             if (c == ']')
                 stack.pop();

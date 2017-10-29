@@ -25,10 +25,39 @@ public class SerializeNAryTree {
 
         System.out.println();
 
-        BNode root = deserialize(ser);
+        // BNode root = deserialize(ser);
 
+        BNode root = constructTree(ser);
         inoder(root);
 
+    }
+
+    private static BNode constructTree(String s) {
+
+        Stack<BNode> stack = new Stack<>();
+
+        // Forloop check carefully.
+        for (int i = 0, j = i; i < s.length(); i++, j = i) {
+
+            char c = s.charAt(i);
+            if (c == ']')
+                stack.pop();
+            else if (c >= '0' && c <= '9') {
+                while (i + 1 < s.length() && s.charAt(i + 1) >= '0' && s.charAt(i + 1) <= '9')
+                    i++;
+                BNode node = new BNode(Integer.parseInt(s.substring(j, i + 1)));
+                if (!stack.isEmpty()) {
+                    BNode parent = stack.peek();
+                    if (parent.left != null)
+                        parent.right = node;
+                    else
+                        parent.left = node;
+                }
+                stack.push(node);
+            }
+
+        }
+        return stack.isEmpty() ? null : stack.peek();
     }
 
     private static BNode deserialize(String s) {

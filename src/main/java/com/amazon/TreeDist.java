@@ -7,11 +7,11 @@ public class TreeDist {
         int[] arr = { 5, 6, 3, 1, 2, 4 };
 
         //BST
-        int dist = bstDist(arr, 6, 2, 4);
+        int dist = bstDist(arr, 2, 4);
         System.out.println(dist);
     }
 
-    static int bstDist(int[] arr, int n, int node1, int node2) {
+    static int bstDist(int[] arr, int node1, int node2) {
 
         TreeNode root = null;
 

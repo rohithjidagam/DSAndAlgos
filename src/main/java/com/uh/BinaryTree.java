@@ -111,7 +111,7 @@ public class BinaryTree {
             System.out.print(node.data + "-");
             printLeftBoundary(node.left);
         } else if (node.right != null) {
-            System.out.print(node.right + "-");
+            System.out.print(node.data + "-");
             printLeftBoundary(node.right);
         }
 

@@ -1,5 +1,6 @@
 package com.salesforce.library;
 
+import java.util.Iterator;
 import java.util.LinkedList;
 
 public class PatronList extends LinkedList<Patron> {
@@ -10,7 +11,7 @@ public class PatronList extends LinkedList<Patron> {
     }
 
     public void display() {
-        for (java.util.Iterator it = iterator(); it.hasNext();)
+        for (Iterator it = iterator(); it.hasNext();)
             ((Patron) it.next()).display();
     }
 }

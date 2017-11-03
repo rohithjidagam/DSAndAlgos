@@ -116,25 +116,30 @@ public class Library {
 
     public void run() {
         while (true) {
-            char option = getString("\nEnter one of the following options:\n" + "1. Include a book in the catalog\n"
-                    + "2. Check out a book\n" + "3. Return a book\n4. Status\n5. Exit\n" + "Your option:").charAt(0);
-            switch (option) {
-            case '1':
-                includeBook();
-                break;
-            case '2':
-                checkOutBook();
-                break;
-            case '3':
-                returnBook();
-                break;
-            case '4':
-                status();
-                break;
-            case '5':
-                return;
-            default:
-                System.out.println("Wrong option, try again.");
+            String option = getString("\nEnter one of the following options:\n" + "1. Include a book in the catalog\n"
+                    + "2. Check out a book\n" + "3. Return a book\n4. Status\n5. Exit\n" + "Your option:");
+            if (option.length() > 1) {
+                System.out.println("Option can be only 1 character long, between 1-5 inclusive");
+            } else {
+                char ch = option.charAt(0);
+                switch (ch) {
+                case '1':
+                    includeBook();
+                    break;
+                case '2':
+                    checkOutBook();
+                    break;
+                case '3':
+                    returnBook();
+                    break;
+                case '4':
+                    status();
+                    break;
+                case '5':
+                    return;
+                default:
+                    System.out.println("Wrong option, try again.");
+                }
             }
         }
     }

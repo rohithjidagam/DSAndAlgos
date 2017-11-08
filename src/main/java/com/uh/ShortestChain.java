@@ -2,10 +2,13 @@ package com.uh;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 
@@ -30,7 +33,7 @@ public class ShortestChain {
         String start = "TOON";
         String end = "PLEA";
 
-        // wordLadder1(dict, start, end);
+         wordLadder1(dict, start, end);
 
         dict.clear();
         dict.add("hot");
@@ -42,32 +45,62 @@ public class ShortestChain {
         start = "hit";
         end = "cog";
 
-        wordLadder2(dict, start, end);
+        List<List<String>> wordLadder2 = wordLadder2(dict, start, end);
+        for (List<String> list : wordLadder2) {
+            System.out.println(list);
+        }
 
     }
 
-    private static void wordLadder2(List<String> dict, String start, String end) {
-        Queue<Word> q1 = new LinkedList<>();
-        Queue<Word> q2 = new LinkedList<>();
-        q1.add(new Word(1, start));
-        q2.add(new Word(1, end));
+    private static List<List<String>> wordLadder2(List<String> dict, String start, String end) {
 
-        while (!q1.isEmpty() && !q2.isEmpty()) {
+        List<List<String>> result = new ArrayList<>();
+        dict.add(end);
 
-            Word w1 = q1.poll();
-            Word w2 = q2.poll();
-            int d1 = w1.dist;
-            int d2 = w2.dist;
-            
-            Iterator<String> it = dict.iterator();
-            while(it.hasNext()){
-                String w = it.next();
-                if(isAdjacent(w1.word, w)){
-                    q1.add(new Word(d1+1, w));
+        Deque<List<String>> paths = new LinkedList<>();
+        List<String> pathI = new LinkedList<>();
+        pathI.add(start);
+        paths.add(pathI);
+
+        int level = 1;
+        int lastLevel = Integer.MAX_VALUE;
+        Set<String> wordsPerLevel = new HashSet<>();
+
+        while (!paths.isEmpty()) {
+            List<String> path = paths.pollFirst();
+
+            if (path.size() > level) {
+                dict.removeAll(wordsPerLevel);
+                wordsPerLevel.clear();
+                level = path.size();
+                if (level > lastLevel)
+                    break;
+            }
+
+            String last = path.get(level - 1);
+            char[] chars = last.toCharArray();
+            for (int i = 0; i < chars.length; i++) {
+                char ch = chars[i];
+                for (char c = 'a'; c <= 'z'; c++) {
+                    chars[i] = c;
+                    String next = new String(chars);
+                    if (dict.contains(next)) {
+                        wordsPerLevel.add(next);
+                        List<String> nextPath = new LinkedList<>(path);
+                        nextPath.add(next);
+                        if (next.equals(end)) {
+                            result.add(nextPath);
+                            lastLevel = level;
+                        } else {
+                            paths.addLast(nextPath);
+                        }
+                    }
                 }
+                chars[i] = ch;
             }
         }
 
+        return result;
     }
 
     private static void wordLadder1(List<String> dict, String start, String end) {

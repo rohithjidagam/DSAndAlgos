@@ -40,12 +40,10 @@ public class AlienLanguage {
             }
         }
         
-       for (int i = 0; i < graph.adj.length; i++) {
-        System.out.println(i + "-->" + Arrays.deepToString(graph.adj[i].toArray()));
-    }
-
+        System.out.println("Top Sort");
         graph.topSort();
         
+        System.out.println("Top Sort Using Loop in Directed Graaph colors");
         String topSortAlt = graph.topSortAlt();
         System.out.println(topSortAlt);
 
@@ -58,7 +56,7 @@ public class AlienLanguage {
         
         for (int i = 0; i < vis.length; i++) {
             if(vis[i] == 0){
-                if(!dfsAlt(i, vis, sb))
+                if(dfsAlt(i, vis, sb))
                     return "";
             }
         }
@@ -72,13 +70,13 @@ public class AlienLanguage {
         while(listIterator.hasNext()){
             int j = listIterator.next();
             if(vis[j] == 1) //loop,cycle
-                return false;
-            if(vis[j] == 0 && !dfsAlt(j, vis, sb)) //unvisited
-                return false;
+                return true;
+            if(vis[j] == 0 && dfsAlt(j, vis, sb)) //unvisited
+                return true;
         }
         vis[i] = 2; //visited
         sb.append((char) (i + 'a'));
-        return true;
+        return false;
     }
 
     private void topSort() {

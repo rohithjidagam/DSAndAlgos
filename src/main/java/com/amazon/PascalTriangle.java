@@ -11,6 +11,7 @@ public class PascalTriangle {
         List<List<Integer>> list = pascal(n);
         System.out.println(list);
 
+        
         List<Integer> list2 = nthPascal(n);
         System.out.println(list2);
 

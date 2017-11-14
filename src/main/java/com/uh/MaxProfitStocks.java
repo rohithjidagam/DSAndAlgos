@@ -91,7 +91,7 @@ public class MaxProfitStocks {
 		for (int i = 0; i < costs.length; i++) {
 
 			int curMin = Integer.MAX_VALUE;
-			int curSecMin = Integer.MAX_VALUE;
+			int curSecMin = Integer.MAX_VALUE;	
 			int curColor = -1;
 
 			for (int j = 0; j < costs[0].length; j++) {

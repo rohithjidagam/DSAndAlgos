@@ -13,7 +13,7 @@ public class CutOffgolfTrees {
 
 		CutOffgolfTrees g = new CutOffgolfTrees();
 		List<List<Integer>> forest = new ArrayList<>();
-		forest.add(Arrays.asList(1, 2, 3));
+		forest.add(Arrays.asList(1, 3, 2));
 		forest.add(Arrays.asList(0, 0, 4));
 		forest.add(Arrays.asList(7, 6, 5));
 		int min = g.cutOffGolfCell(forest);

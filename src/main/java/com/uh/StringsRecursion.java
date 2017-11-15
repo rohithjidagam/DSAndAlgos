@@ -9,8 +9,8 @@ public class StringsRecursion {
 
     public static void main(String[] args) {
 
-        String str = "abcd";
-        // breakStringsWithBrackets(str, 0, "");
+        String str = "abc";
+        breakStringsWithBrackets(str, 0, "");
 
         minBracketSwaps("[]][][[]][][");
 
@@ -18,7 +18,7 @@ public class StringsRecursion {
 
         recurAddto9("4189");
 
-        // printAllStringsBySpaces("ABCD");
+        printAllStringsBySpaces("ABCD");
 
         removeMultipleSpaces("  Welcome   to ,  the   java class   .  ");
 
@@ -251,6 +251,7 @@ public class StringsRecursion {
                 count = 1;
             }
         }
+        System.out.println(s);
         System.out.println(sum);
 
     }

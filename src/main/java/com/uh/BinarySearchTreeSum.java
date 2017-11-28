@@ -67,8 +67,8 @@ public class BinarySearchTreeSum {
             sum.sum = level;
         }
         
-        leftViewUtil(root.right, level+1, sum);
-        leftViewUtil(root.left, level+1, sum);
+        rightViewUtil(root.right, level+1, sum);
+        rightViewUtil(root.left, level+1, sum);
     }
 
     private static void leftView(BSTNode root) {
@@ -139,7 +139,7 @@ public class BinarySearchTreeSum {
             map.put(hd, integer + root.data);
         } */
         
-        map.put(hd, map.getOrDefault(map.get(hd), 0) + root.data);
+        map.put(hd, map.getOrDefault(hd, 0) + root.data);
         verticalSumUtil(root.right, map, hd + 1);
 
     }

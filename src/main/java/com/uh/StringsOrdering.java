@@ -33,8 +33,8 @@ public class StringsOrdering {
             mark[f] = true;
             mark[l] = true;
 
-            in[f]++;
-            out[l]++;
+            out[f]++;
+            in[l]++;
 
             graph[f].add(l);
 

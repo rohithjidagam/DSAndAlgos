@@ -9,6 +9,8 @@ public class RatInAMaze {
 
         int mat[][] = { { 1, 1, 1, 1 }, { 1, 0, 1, 1 }, { 0, 1, 1, 1 }, { 1, 1, 1, 1 } };
 
+        print(mat);
+        System.out.println("*****");
         System.out.println(hasSol(mat));
 
         System.out.println(countPaths(mat));
@@ -51,11 +53,34 @@ public class RatInAMaze {
             flag = true;
         }
         print(sol);
+        
+        int[][] sol2 = new int[mat.length][mat[0].length];
+        mazeUtilAllPaths(mat, 0, 0, sol2);
         return flag;
 
     }
 
-    private static void print(int[][] sol) {
+    private static void mazeUtilAllPaths(int[][] mat, int i, int j, int[][] sol) {
+
+    		if(i == mat.length - 1 && j == mat[0].length - 1){
+    			sol[i][j] = 1;
+    			System.out.println("************");
+    			print(sol);
+    			System.out.println("************");
+    			return;
+    		}
+    		
+    		if(isSafe(mat, i, j)){
+    			
+    			sol[i][j] = 1;
+    			mazeUtilAllPaths(mat, i+1, j, sol);
+    			mazeUtilAllPaths(mat, i, j+1, sol);
+    			sol[i][j] = 0;
+    			
+    		}
+	}
+
+	private static void print(int[][] sol) {
         for (int i = 0; i < sol.length; i++) {
             for (int j = 0; j < sol[i].length; j++) {
                 System.out.print(sol[i][j] + " ");

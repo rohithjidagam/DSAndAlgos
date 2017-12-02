@@ -40,6 +40,47 @@ public class BinaryTree {
         int max = tree.maxDepth(tree.root);
         System.out.println(max);
 
+        tree.connectNodesConstantSpace(tree.root);
+        tree.inoder(tree.root);
+
+    }
+
+    private void connectNodesConstantSpace(BNode r) {
+
+        BNode cur = r;
+        BNode head = null;
+        BNode prev = null;
+
+        while (cur != null) {
+
+            while (cur != null) {
+
+                if (cur.left != null) {
+                    if (prev != null) {
+                        prev.next = cur.left;
+                    } else {
+                        head = cur.left;
+                    }
+                    prev = cur.left;
+                }
+
+                if (cur.right != null) {
+                    if (prev != null) {
+                        prev.next = cur.right;
+                    } else {
+                        head = cur.right;
+                    }
+                    prev = cur.right;
+                }
+
+                cur = cur.next;
+            }
+
+            cur = head;
+            prev = null;
+            head = null;
+
+        }
     }
 
     private int maxDepth(BNode node) {

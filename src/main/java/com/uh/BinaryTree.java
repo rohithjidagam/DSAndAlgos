@@ -1,6 +1,8 @@
 package com.uh;
 
+import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Map;
 import java.util.Queue;
 
 public class BinaryTree {
@@ -43,6 +45,46 @@ public class BinaryTree {
         tree.connectNodesConstantSpace(tree.root);
         tree.inoder(tree.root);
 
+        tree.pathSum3();
+
+    }
+
+    private void pathSum3() {
+
+        BinaryTree tree = new BinaryTree();
+
+        tree.root = new BNode(10);
+        tree.root.left = new BNode(5);
+        tree.root.right = new BNode(-3);
+        tree.root.right.right = new BNode(11);
+        tree.root.left.left = new BNode(3);
+        tree.root.left.right = new BNode(2);
+        tree.root.left.right.right = new BNode(1);
+        tree.root.left.left.left = new BNode(3);
+        tree.root.left.left.right = new BNode(-2);
+
+        Map<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1);
+        int k = 8;
+
+        int res = count(tree.root, 0, k, map);
+        System.out.println(map);
+        System.out.println(res);
+    }
+
+    private int count(BNode node, int curSum, int k, Map<Integer, Integer> map) {
+
+        if (node == null)
+            return 0;
+
+        curSum += node.data;
+        
+        int res = map.getOrDefault(curSum - k, 0);
+        map.put(curSum, map.getOrDefault(curSum, 0)+1);
+        
+        res += count(node.left, curSum, k, map) + count(node.right, curSum, k, map);
+        map.put(curSum, map.get(curSum) - 1);
+        return res;
     }
 
     private void connectNodesConstantSpace(BNode r) {

@@ -36,7 +36,7 @@ public class Factorial {
 			res[i] = prod % 10;
 			carry = prod / 10;
 		}
-
+		
 		while (carry != 0) {
 			res[ptr] = carry % 10;
 			carry = carry / 10;

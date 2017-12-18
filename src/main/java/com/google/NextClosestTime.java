@@ -52,8 +52,8 @@ public class NextClosestTime {
     private void dfs(int[] digit, int i, int[] ret) {
 
         if(i == 4){
-            int hr = 10 * digit[0] + digit[1];
-            int min = 10 * digit[2] + digit[3];
+            int hr = 10 * ret[0] + ret[1];
+            int min = 10 * ret[2] + ret[3];
             
             int d = diff(hr, min);
             if(d < diff){

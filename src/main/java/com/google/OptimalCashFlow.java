@@ -17,13 +17,17 @@ public class OptimalCashFlow {
 		int mini = o.minTransfers(transactions);
 		System.out.println(mini);
 
-		int count = o.optimalCashFlow(transactions);
-		System.out.println(count);
+		int[][] graph = { { 0, 10, 0 }, { 0, 0, 0 }, { 5, 0, 0 } };
+		System.out.println(o.optimalCashFlow(graph));
+		
+		o.count = 0;
+		int[][] graph2 = { { 0, 10, 0 }, { 1, 0, 5 }, { 5, 0, 0 } };
+		System.out.println(o.optimalCashFlow(graph2));
 	}
 
-	private int optimalCashFlow(int[][] transactions) {
+	private int optimalCashFlow(int[][] graph) {
 
-		int[][] graph = { { 0, 10, 0 }, { 0, 0, 0 }, { 5, 0, 0 } };
+		
 		Integer[] amount = new Integer[graph.length];
 		Arrays.fill(amount, 0);
 

@@ -5,6 +5,9 @@ import java.util.TreeMap;
 
 public class PalindromePartitionsDistinct {
 
+	/*
+	 * http://www.allenlipeng47.com/blog/index.php/2016/03/15/palindrome-pairs/
+	 */
 	public static void main(String[] args) {
 
 		palindromeSubStrs("aabaa");

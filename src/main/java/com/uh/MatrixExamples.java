@@ -1,5 +1,7 @@
 package com.uh;
 
+import java.util.Arrays;
+
 public class MatrixExamples {
 
     public static void main(String[] args) {
@@ -10,9 +12,36 @@ public class MatrixExamples {
         System.out.println();
 
         diagonal(arr, arr.length, arr[0].length);
+        System.out.println();
+        
+        diagonalAlternate(arr, arr.length, arr[0].length);
     }
 
-    private static void diagonal(int[][] arr, int R, int C) {
+    private static void diagonalAlternate(int[][] arr, int m, int n) {
+
+    		Integer[] res = new Integer[m*n];
+    		int row = 0;
+    		int col = 0;
+    		int d = 1;
+    		
+    		for(int i=0;i<m*n;i++){
+    			res[i] = arr[row][col];
+    			
+    			row-=d;
+    			col+=d;
+    			
+    			if(row >= m) { row = m-1; col+=2; d=-d;};
+    			if(col >= n) { col = n-1; row+=2; d=-d;};
+    			if(row < 0) {row = 0; d=-d;}
+    			if(col < 0) {col = 0; d=-d;}
+    		}
+    		
+    		System.out.println(Arrays.deepToString(res));
+    		
+    	
+	}
+
+	private static void diagonal(int[][] arr, int R, int C) {
 
         for (int k = 0; k < arr.length; k++) {
 

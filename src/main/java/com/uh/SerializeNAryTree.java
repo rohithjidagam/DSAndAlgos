@@ -41,7 +41,7 @@ public class SerializeNAryTree {
             char c = s.charAt(i);
             if (c == ']')
                 stack.pop();
-            else if (c >= '0' && c <= '9') {
+            else if ((c >= '0' && c <= '9') || c == '-') {
                 while (i + 1 < s.length() && s.charAt(i + 1) >= '0' && s.charAt(i + 1) <= '9')
                     i++;
                 BNode node = new BNode(Integer.parseInt(s.substring(j, i + 1)));

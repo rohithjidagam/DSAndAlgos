@@ -15,8 +15,8 @@ public class BoldString {
 
 	public static void main(String[] args) {
 
-		String s = "aaabbcc";
-		List<String> list = Arrays.asList("aaa", "aab", "bc");
+		String s = "abcxyz123";
+		List<String> list = Arrays.asList("abc", "123");
 		Interval[] inte = new Interval[list.size()];
 		int k = 0;
 
@@ -34,6 +34,10 @@ public class BoldString {
 			}
 		});
 
+		for (int i = 0; i < inte.length; i++) {
+			
+			System.out.println(inte[i]);
+		}
 		Stack<Interval> stack = new Stack<>();
 		int i = 0;
 		stack.push(inte[i]);
@@ -56,17 +60,22 @@ public class BoldString {
 
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		int end = 0;
+		
+		String sb = "";
+		int st = 0;
+		int prevSt = s.length();
 		while(!stack.isEmpty()){
+			
+			sb = s.substring(stack.peek().end, prevSt) + sb;
 			Interval in = stack.pop();
-			end = in.end;
-			sb.append("<b>").append(s.substring(in.st, in.end)).append("</b>");
+			prevSt = in.st;
+			sb = "<b>" + s.substring(in.st, in.end) + "</b>" + sb;
+			st = in.st;
 		}
 		
-		sb.append(s.substring(end, s.length()));
+		sb = s.substring(0, st) + sb;
 		
-		System.out.println(sb.toString());
+		System.out.println(sb);
 
 	}
 
